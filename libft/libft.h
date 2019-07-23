@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 17:38:47 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/06 16:59:47 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/23 13:29:52 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 typedef struct		s_list
 {
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
+	void				*content;
+	size_t				content_size;
+	struct s_list		*next;
 }					t_list;
 
 typedef struct		s_gnl_list
