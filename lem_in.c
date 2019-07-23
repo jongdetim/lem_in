@@ -71,18 +71,20 @@ int			get_next_prime(int n)
 	return (n);
 }
 
-int			ft_hash(char *key, int size)
+int			ft_hash_str(char *key, int size)
 {
 	int index;
 	int i;
+	int key_len;
 
 	i = 0;
 	index = 0;
 	if (key == NULL)
 		return (-1);
+	key_len = ft_strlen(key);
 	while (key[i] != '\0')
 	{
-		index = index + key[i] * (i + 1);
+		index = index + key[key_len - i] * (32 ^ i);
 		i++;
 	}
 	index = ft_abs(index);
@@ -222,7 +224,7 @@ void	get_node(char *line, t_lem_in *data)
 
 void	get_edge(char *line, t_lem_in *data)
 {
-	
+	;
 }
 
 void	init_lem_in(t_lem_in *data)
@@ -261,7 +263,7 @@ void	build_graph(t_lem_in *data)
 	current = data->node_lst;
 	while (current != NULL)
 	{
-		index = ft_hash(current->name, data->hashsize);
+		index = ft_hash_str(current->name, data->hashsize);
 		node = &(data->graph[index]);
 		if (node->key != NULL)
 		{
@@ -273,10 +275,10 @@ void	build_graph(t_lem_in *data)
 		node->key = current->name;
 		node->type = current->type;
 
-		ft_putnbr(index);
-		write(1, "\n", 1);
-		ft_putendl(node->key);
-		write(1, "\n", 1);
+		// ft_putnbr(index);
+		// write(1, "\n", 1);
+		// ft_putendl(node->key);
+		// write(1, "\n", 1);
 
 		current = current->next;
 	}
@@ -310,10 +312,10 @@ int		main(void)
 	build_graph(&data);
 	// check_data(&data);
 	check_parsing(&data);
-	print_lst_rev(data.input);
+	// print_lst_rev(data.input);
 	
 //	test
-	linenum = ft_hash("4", data.hashsize);
+	linenum = ft_hash_str("4", data.hashsize);
 	ft_putnbr(linenum);
 	ft_putendl(data.graph[linenum].key);
 
