@@ -6,9 +6,11 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/23 15:30:22 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/13 18:22:24 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+int	collisions = 0;
 
 #include "libft/libft.h"
 
@@ -84,7 +86,7 @@ int			ft_hash_str(char *key, int size)
 	key_len = ft_strlen(key);
 	while (key[i] != '\0')
 	{
-		index = index + key[key_len - i] * (32 ^ i);
+		index = index + key[key_len - i - 1] * (32 ^ i);
 		i++;
 	}
 	index = ft_abs(index);
@@ -258,7 +260,7 @@ void	build_graph(t_lem_in *data)
 	t_lem_in_lst	*current;
 	t_hash_graph	*node;
 
-	data->hashsize = get_next_prime(data->nodes);
+	data->hashsize = get_next_prime(data->nodes * 32);		//	<-- amount of collisions depends on this value
 	data->graph = (t_hash_graph*)malloc(sizeof(t_hash_graph) * data->hashsize);
 	current = data->node_lst;
 	while (current != NULL)
@@ -267,6 +269,9 @@ void	build_graph(t_lem_in *data)
 		node = &(data->graph[index]);
 		if (node->key != NULL)
 		{
+
+			collisions++;
+
 			while (node->coll != NULL)
 				node = node->coll;
 			node->coll = (t_hash_graph*)malloc(sizeof(t_hash_graph));
@@ -310,14 +315,49 @@ int		main(void)
 		free(line);
 	}
 	build_graph(&data);
-	// check_data(&data);
-	check_parsing(&data);
+	// check_data(&data);  								<-- wat is dit ook alweer?
+	// check_parsing(&data);
 	// print_lst_rev(data.input);
-	
 //	test
-	linenum = ft_hash_str("4", data.hashsize);
-	ft_putnbr(linenum);
-	ft_putendl(data.graph[linenum].key);
 
+	int *nums;
+
+	nums = (int*)ft_memalloc(sizeof(int) * data.hashsize);
+	ft_memset(nums, 0, data.hashsize);
+	while (data.node_lst != NULL)
+	{
+		// ft_putnbr(ft_hash_str(data.node_lst->name, data.hashsize));
+		// write(1, "\n", 1);
+		nums[ft_hash_str(data.node_lst->name, data.hashsize)]++;
+		data.node_lst = data.node_lst->next;
+	}
+
+	int x = 0;
+
+	while (x < data.hashsize)
+	{
+		ft_putnbr(nums[x]);
+		write(1, "\n", 1);
+		x++;
+	}
+	// ft_putnbr(data.hashsize);
+	// write(1, "\n", 1);
+	// linenum = ft_hash_str("Pem3", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("Pq_6", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("Qqn1", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("M_k2", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("Dma6", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("Evq6", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("Fib4", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	// linenum = ft_hash_str("C_u5", data.hashsize);
+	// ft_putendl(data.graph[linenum].key);
+	ft_printf("%f%% of collisions", ((float)collisions / (float)data.hashsize) * 100);
 	return (0);
 }
