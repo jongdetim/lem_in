@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/14 17:07:01 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/14 19:35:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void	check_room(char *str, t_lem_in *data)
 	if (str[0] == 'L')
 		ft_error("Room names can't start with an L");
 	get_node(str, data);
+	if (data->node_lst)
+		write(1, "NODE", 4);
+	ft_putnbr(data->node_lst->type);
 	add_list(str, data);
 }
 

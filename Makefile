@@ -26,12 +26,12 @@ library :
 	make -C $(LIB)
 
 $(NAME_C) : $(LI_OBJ)
-	gcc -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
+	gcc -g -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
 
 $(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
 	@mkdir -p $(OBJ_PATH)
 	@mkdir -p $(dir $(LI_OBJ))
-	gcc -o $@ -c $< $(INCLUDES) $(FLAGS)
+	gcc -g -o $@ -c $< $(INCLUDES) $(FLAGS)
 
 clean :
 	rm -fr $(OBJ_PATH)

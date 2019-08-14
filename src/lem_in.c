@@ -6,11 +6,53 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/14 18:33:25 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/14 20:05:27 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lem_in.h"
+int	collisions = 0;
+
+#include "../libft/libft.h"
+
+typedef struct		s_str_lst
+{
+	char				*content;
+	struct s_str_lst	*next;
+}					t_str_lst;
+
+typedef struct		s_neighbours
+{
+	struct s_hash_graph	*node;
+	struct s_neighbours	*neighbours;
+}					t_neighbours;
+
+typedef struct		s_hash_graph
+{
+	char				*key;
+	int					type;
+	t_neighbours		*neighbours;
+	struct s_hash_graph	*coll;
+}					t_hash_graph;
+
+typedef struct		s_lem_in_lst
+{
+	char				*name;
+	int					type;
+	struct s_lem_in_lst	*next;
+}					t_lem_in_lst;
+
+typedef struct		s_lem_in
+{
+	int				amount;
+	int				set_start;
+	int				set_end;
+	int				nodes;
+	int				edges;
+	int				hashsize;
+	t_str_lst		*input;
+	t_lem_in_lst	*node_lst;
+	t_hash_graph	*graph;
+}					t_lem_in;
 
 int			ft_isprime(int n)
 {
@@ -156,17 +198,25 @@ void	set_startend(t_lem_in_lst *node, t_lem_in *data)
 	}
 }
 
-void	get_node(char *line, t_lem_in *data)
+void    get_node(char *line, t_lem_in *data)
 {
-	t_lem_in_lst	*current;
+    t_lem_in_lst    *current;
 
-	data->nodes++;
-	current = (t_lem_in_lst*)malloc(sizeof(t_lem_in_lst));
-	current->next = data->node_lst;
-	data->node_lst = current;
-	current->name = ft_getword(line);
-	current->type = 0;
-	set_startend(current, data);
+    data->nodes++;
+	if (data->node_lst == NULL)
+    {
+        current = (t_lem_in_lst*)malloc(sizeof(t_lem_in_lst));
+        current->next = NULL;
+    }
+	else
+	{
+    	current = (t_lem_in_lst*)malloc(sizeof(t_lem_in_lst));
+    	current->next = data->node_lst;
+	}
+    current->name = ft_getword(line);
+    current->type = 0;
+    set_startend(current, data);
+	data->node_lst = current; 										//<-- ??????????????????????????????????????????????????????
 }
 
 t_hash_graph	*find_node(t_lem_in *data, char *key)
