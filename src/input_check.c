@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/14 19:35:40 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/15 13:08:10 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		validate_ants(t_lem_in *data)
 	ants = ft_atoi(str);
 	if (ants == 0)
 		ft_error("Ants can't be zero! :(");
-	printf("number of ants right now: %s\n", str);
+	// ft_printf("number of ants right now: %s\n", str);
 	return (ants);
 }
 
@@ -54,32 +54,25 @@ char	*check_comment(char *str, t_lem_in *data)
 
 void	check_room(char *str, t_lem_in *data)
 {
+	
 	if (str[0] == 'L')
 		ft_error("Room names can't start with an L");
-	get_node(str, data);
-	if (data->node_lst)
-		write(1, "NODE", 4);
-	ft_putnbr(data->node_lst->type);
+	get_node(str, data);											// <-- ???????????????????????????????????????????????????????????
 	add_list(str, data);
 }
 
-void	create_rooms(t_lem_in *data, int flag)
+int		create_rooms(t_lem_in *data, int flag, char *line)
 {
-	char			*str;
-
-	while (get_next_line(0, &str))
+	while (line[0] == '#')
+		line = check_comment(line, data);
+	if (ft_validate_format("%s %d %d", line))
+		check_room(line, data);
+	else if (ft_validate_format("%s-%s", line) && ++flag)
 	{
-		while (str[0] == '#')
-			str = check_comment(str, data);
-		if (ft_validate_format("%s %d %d", str))
-			check_room(str, data);
-		else if (ft_validate_format("%s-%s", str) && ++flag)
-		{
-			ft_strdel(&str);
-			break ;
-		}
-		else
-			ft_error("Something went wrong with the parsing of rooms or links");
-		ft_strdel(&str);
+		return (0) ;
 	}
+	else
+		ft_error("Something went wrong with the parsing of rooms or links");
+	ft_strdel(&line);
+	return (1);
 }

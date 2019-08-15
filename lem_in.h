@@ -6,14 +6,14 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/14 18:33:07 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/15 13:09:37 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
-#include "libft/libft.h"
-#include <stdio.h>
+# include "libft/libft.h"
+// #include <stdio.h>
 
 typedef struct		s_str_lst
 {
@@ -61,6 +61,7 @@ typedef struct		s_lem_in
  */
 int			main(void);
 void		ft_error(char str[100]);
+int			read_edge(char *line, t_lem_in *data);
 
 /*
 ** validate_format.c
@@ -70,7 +71,7 @@ int			ft_validate_format(char *format, char *str);
 /*
 ** input_check.c
  */
-void		create_rooms(t_lem_in *data, int flag);
+int			create_rooms(t_lem_in *data, int flag, char *line);
 void		check_room(char *str, t_lem_in *data);
 char		*check_comment(char *str, t_lem_in *data);
 int			validate_ants(t_lem_in *data);
