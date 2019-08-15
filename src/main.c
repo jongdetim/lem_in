@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/15 13:17:20 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/15 14:21:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int		main(void)
 	int			linenum;
 	t_lem_in	data;
 
-	close(0);
-	open("testfile", 0, O_RDONLY);
 	data.collisions = 0;
 	init_lem_in(&data);
 	linenum = 0;
