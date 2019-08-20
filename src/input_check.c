@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/15 13:08:10 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/20 19:58:13 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	check_room(char *str, t_lem_in *data)
 	add_list(str, data);
 }
 
-int		create_rooms(t_lem_in *data, int flag, char *line)
+int		create_rooms(t_lem_in *data, char *line)
 {
 	while (line[0] == '#')
 		line = check_comment(line, data);
 	if (ft_validate_format("%s %d %d", line))
 		check_room(line, data);
-	else if (ft_validate_format("%s-%s", line) && ++flag)
+	else if (ft_validate_format("%s-%s", line))
 	{
 		return (0) ;
 	}

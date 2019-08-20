@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/20 19:06:40 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/20 20:05:02 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		main(void)
 	data.amount = validate_ants(&data);
 	while (get_next_line(0, &line))
 	{
-		if (create_rooms(&data, 0, line) == 0)
+		if (create_rooms(&data, line) == 0)
 			break ;
 	}
 	build_graph(&data);
@@ -58,6 +58,7 @@ int		main(void)
 			break ;
 	}
 	bfs(&data);
+
 // t_hash_graph *test;
 // t_neighbours *room;
 
