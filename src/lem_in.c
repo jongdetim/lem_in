@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/15 13:17:36 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/20 19:07:34 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void	add_list(char *line, t_lem_in *data)
 	data->input = current;
 	current->content = ft_strdup(line);
 }
+
 void	deal_hash(char *line, t_lem_in *data)
 {
 	if (line[1] == '#')
@@ -176,7 +177,7 @@ void    get_node(char *line, t_lem_in *data)
     current->name = ft_getword(line);
     current->type = 0;
     set_startend(current, data);
-	data->node_lst = current;										//<-- ??????????????????????????????????????????????????????
+	data->node_lst = current;
 }
 
 t_hash_graph	*find_node(t_lem_in *data, char *key)
@@ -184,7 +185,6 @@ t_hash_graph	*find_node(t_lem_in *data, char *key)
 	int				index;
 	t_hash_graph	*node;
 
-	// ft_putendl(key);
 	index = ft_hash_str(key, data->hashsize);
 	node = &(data->graph[index]);
 	if (node == NULL)
@@ -195,7 +195,6 @@ t_hash_graph	*find_node(t_lem_in *data, char *key)
 		if (node == NULL)
 			return (NULL);
 	}
-	// ft_putendl(node->key);
 	return (node);
 }
 
@@ -241,6 +240,7 @@ void	get_edge(char *line, t_lem_in *data)
 	free(key1);
 	free(key2);
 }
+
 void	init_lem_in(t_lem_in *data)
 {
 	data->nodes = 0;
@@ -250,20 +250,75 @@ void	init_lem_in(t_lem_in *data)
 	data->node_lst = NULL;
 }
 
-void	check_parsing(t_lem_in *data)
-{
-	t_lem_in_lst	*current;
+// void	check_parsing(t_lem_in *data)              <--             debugging function
+// {
+// 	t_lem_in_lst	*current;
 
-	current = data->node_lst;
-	ft_printf("%d ants\n%d nodes\n", data->amount, data->nodes);
-	while (current != NULL)
+// 	current = data->node_lst;
+// 	ft_printf("%d ants\n%d nodes\n", data->amount, data->nodes);
+// 	while (current != NULL)
+// 	{
+// 		if (current->type == 1)
+// 			ft_printf("%s is beginning\n", current->name);
+// 		if (current->type == 2)
+// 			ft_printf("%s is end\n", current->name);
+// 		current = current->next;
+// 	}
+// }
+
+void	pop_queue(t_bfs_queue **queue)
+{
+	t_bfs_queue	*temp;
+	temp = (*queue)->next;
+	*queue = temp;
+}
+
+void	enqueue(t_bfs_queue *queue, t_hash_graph *node)
+{
+	t_bfs_queue *current;
+
+	if (node->visited == 0)
 	{
-		if (current->type == 1)
-			ft_printf("%s is beginning\n", current->name);
-		if (current->type == 2)
-			ft_printf("%s is end\n", current->name);
-		current = current->next;
+		node->visited = 1;
+		current = queue;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = (t_bfs_queue*)malloc(sizeof(t_bfs_queue));
+		current->next->node = node;
+		current->next->next = NULL;
 	}
+}
+
+void	bfs(t_lem_in *data)
+{
+	t_bfs_queue		*queue;
+	t_hash_graph	*node;
+	t_neighbours	*neighbours;
+
+	queue = (t_bfs_queue*)malloc(sizeof(t_bfs_queue));
+	queue->next = NULL;
+	node = data->start;
+	queue->node = node;
+	while (queue != NULL)
+	{
+		node = queue->node;
+		neighbours = node->neighbours;
+		while (neighbours != NULL)
+		{
+			enqueue(queue, neighbours->node);
+			neighbours = neighbours->neighbours;
+		}
+		pop_queue(&queue);
+		if (node->type == 0)
+			trim_graph(node);
+	}
+}
+
+void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)
+{
+	node->type = current->type;
+	if (node->type == 1)
+		data->start = node;
 }
 
 void	build_graph(t_lem_in *data)
@@ -273,7 +328,7 @@ void	build_graph(t_lem_in *data)
 	t_hash_graph	*node;
 
 	data->hashsize = get_next_prime(data->nodes * 64);		//	<-- amount of collisions depends on this value
-	data->graph = (t_hash_graph*)malloc(sizeof(t_hash_graph) * data->hashsize);
+	data->graph = (t_hash_graph*)ft_memalloc(sizeof(t_hash_graph) * data->hashsize);
 	current = data->node_lst;
 	while (current != NULL)
 	{
@@ -284,11 +339,11 @@ void	build_graph(t_lem_in *data)
 			data->collisions++;								// <-- debugging line
 			while (node->coll != NULL)
 				node = node->coll;
-			node->coll = (t_hash_graph*)malloc(sizeof(t_hash_graph));
+			node->coll = (t_hash_graph*)ft_memalloc(sizeof(t_hash_graph));
 			node = node->coll;
 		}
 		node->key = current->name;
-		node->type = current->type;
+		get_node_type(node, current, data);
 		node->coll = NULL;
 		current = current->next;
 	}

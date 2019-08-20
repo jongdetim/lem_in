@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/15 14:21:40 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/20 19:06:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		main(void)
 		if (read_edge(line, &data) == 0)
 			break ;
 	}
-
+	bfs(&data);
 // t_hash_graph *test;
 // t_neighbours *room;
 

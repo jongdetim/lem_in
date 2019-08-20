@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/15 13:09:37 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/20 18:58:43 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,16 @@ typedef struct		s_hash_graph
 {
 	char				*key;
 	int					type;
+	int					visited;
 	t_neighbours		*neighbours;
 	struct s_hash_graph	*coll;
 }					t_hash_graph;
+
+typedef struct 		s_bfs_queue
+{
+	t_hash_graph		*node;
+	struct s_bfs_queue	*next;
+}					t_bfs_queue;
 
 typedef struct		s_lem_in_lst
 {
@@ -54,6 +61,7 @@ typedef struct		s_lem_in
 	t_str_lst		*input;
 	t_lem_in_lst	*node_lst;
 	t_hash_graph	*graph;
+	t_hash_graph	*start;
 }					t_lem_in;
 
 /*
@@ -77,6 +85,11 @@ char		*check_comment(char *str, t_lem_in *data);
 int			validate_ants(t_lem_in *data);
 
 /*
+** trim_graph.c
+ */
+void	trim_graph(t_hash_graph *node);
+
+/*
 ** lem_in.c
  */
 void	build_graph(t_lem_in *data);
@@ -98,6 +111,9 @@ void	get_edge(char *line, t_lem_in *data);
 void	connect_nodes(char *key1, char *key2, t_lem_in *data);
 void	add_neighbour(t_hash_graph *node1, t_hash_graph *node2);
 t_hash_graph	*find_node(t_lem_in *data, char *key);
+
+void	bfs(t_lem_in *data);
+
 
 
 #endif
