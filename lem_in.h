@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/20 19:58:38 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/21 15:07:28 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ void	connect_nodes(char *key1, char *key2, t_lem_in *data);
 void	add_neighbour(t_hash_graph *node1, t_hash_graph *node2);
 t_hash_graph	*find_node(t_lem_in *data, char *key);
 
+/*
+** bfs.c
+ */
 void	bfs(t_lem_in *data);
 
 

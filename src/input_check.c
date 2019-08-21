@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/20 19:58:13 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/21 17:31:53 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ int		create_rooms(t_lem_in *data, char *line)
 	if (ft_validate_format("%s %d %d", line))
 		check_room(line, data);
 	else if (ft_validate_format("%s-%s", line))
-	{
 		return (0) ;
-	}
 	else
 		ft_error("Something went wrong with the parsing of rooms or links");
 	ft_strdel(&line);

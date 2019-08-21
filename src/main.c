@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/20 20:05:02 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/21 17:35:59 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int		read_edge(char *line, t_lem_in *data)
 		line = check_comment(line, data);
 	if (line && ft_validate_format("%s %d %d", line))
 		ft_error("Wrong order or rooms/links");
-	if (line && ft_validate_format("%s-%s", line))
-		get_edge(line, data);
+	if (line && !ft_validate_format("%s-%s", line))
+		ft_error("That link format is not valid!");
 	else
-		return (0);
+		get_edge(line, data);
 	ft_strdel(&line);
 	return (1);
 }
@@ -38,12 +38,11 @@ int		read_edge(char *line, t_lem_in *data)
 int		main(void)
 {
 	char		*line;
-	int			linenum;
+	int			a;
 	t_lem_in	data;
 
 	data.collisions = 0;
 	init_lem_in(&data);
-	linenum = 0;
 	data.amount = validate_ants(&data);
 	while (get_next_line(0, &line))
 	{
@@ -86,27 +85,27 @@ int		main(void)
 // 	room = room->neighbours;
 // }
 
-	// int *nums;
+// 	int *nums;
 
-	// nums = (int*)ft_memalloc(sizeof(int) * data.hashsize);
-	// ft_memset(nums, 0, data.hashsize);
-	// while (data.node_lst != NULL)
-	// {
-	// 	ft_putnbr(ft_hash_str(data.node_lst->name, data.hashsize));
-	// 	write(1, "\n", 1);
-	// 	nums[ft_hash_str(data.node_lst->name, data.hashsize)]++;
-	// 	data.node_lst = data.node_lst->next;
-	// }
+// 	nums = (int*)ft_memalloc(sizeof(int) * data.hashsize);
+// 	ft_memset(nums, 0, data.hashsize);
+// 	while (data.node_lst != NULL)
+// 	{
+// 		ft_putnbr(ft_hash_str(data.node_lst->name, data.hashsize));
+// 		write(1, "\n", 1);
+// 		nums[ft_hash_str(data.node_lst->name, data.hashsize)]++;
+// 		data.node_lst = data.node_lst->next;
+// 	}
 
-	// int x = 0;
+// 	int x = 0;
 
-	// while (x < data.hashsize)
-	// {
-	// 	ft_putnbr(nums[x]);
-	// 	write(1, "\n", 1);
-	// 	x++;
-	// }
+// 	while (x < data.hashsize)
+// 	{
+// 		ft_putnbr(nums[x]);
+// 		write(1, "\n", 1);
+// 		x++;
+// 	}
 
-	// ft_printf("%f%% of collisions", ((float)data.collisions / (float)data.nodes) * 100);
+// 	ft_printf("%f%% of collisions", ((float)data.collisions / (float)data.nodes) * 100);
 	return (0);
 }
