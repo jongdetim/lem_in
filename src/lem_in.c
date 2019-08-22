@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/21 12:34:31 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/22 18:03:26 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,8 @@ void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)
 	node->type = current->type;
 	if (node->type == 1)
 		data->start = node;
+	if (node->type == 2)
+		data->end = node;
 }
 
 void	build_graph(t_lem_in *data)

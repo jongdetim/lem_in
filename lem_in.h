@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/21 15:07:28 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/22 18:02:22 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct		s_lem_in
 	t_lem_in_lst	*node_lst;
 	t_hash_graph	*graph;
 	t_hash_graph	*start;
+	t_hash_graph	*end;
 }					t_lem_in;
 
 /*

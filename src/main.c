@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/21 17:35:59 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/22 15:44:32 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	ft_error(char str[100])
 
 int		read_edge(char *line, t_lem_in *data)
 {
-	while (line && line[0] == '#')
+	if (line && line[0] == '#')
 		line = check_comment(line, data);
-	if (line && ft_validate_format("%s %d %d", line))
+	else if (line && ft_validate_format("%s %d %d", line))
 		ft_error("Wrong order or rooms/links");
-	if (line && !ft_validate_format("%s-%s", line))
+	else if (line && !ft_validate_format("%s-%s", line))
 		ft_error("That link format is not valid!");
 	else
 		get_edge(line, data);
@@ -38,7 +38,6 @@ int		read_edge(char *line, t_lem_in *data)
 int		main(void)
 {
 	char		*line;
-	int			a;
 	t_lem_in	data;
 
 	data.collisions = 0;
