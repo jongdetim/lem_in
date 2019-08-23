@@ -6,13 +6,16 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/22 18:02:22 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/23 15:49:00 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft/libft.h"
+
+# define PATH_NUMS 2000
+# define PATH_LEN 40
 
 typedef struct		s_str_lst
 {
@@ -34,6 +37,12 @@ typedef struct		s_hash_graph
 	t_neighbours		*neighbours;
 	struct s_hash_graph	*coll;
 }					t_hash_graph;
+
+typedef struct		s_path_queue
+{
+	t_hash_graph		**path;
+	struct s_path_queue	*next;
+}					t_path_queue;
 
 typedef struct 		s_bfs_queue
 {
@@ -62,6 +71,7 @@ typedef struct		s_lem_in
 	t_hash_graph	*graph;
 	t_hash_graph	*start;
 	t_hash_graph	*end;
+	t_hash_graph	***paths;
 }					t_lem_in;
 
 /*
