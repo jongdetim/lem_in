@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/22 15:44:32 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/26 18:47:13 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ int		main(void)
 	char		*line;
 	t_lem_in	data;
 
+	close(0);
+	open("./bigmap2", 0, O_RDONLY);
+
 	data.collisions = 0;
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -56,6 +59,27 @@ int		main(void)
 			break ;
 	}
 	bfs(&data);
+	find_paths(&data);
+
+//	PRINT PATHS
+	int i;
+	int j;
+
+	i = 0;
+	while (i < PATH_NUMS - 1)
+	{
+		j = 0;
+		if (data.paths[i][j] != NULL)
+		{
+			while (data.paths[i][j] != NULL)
+			{
+				ft_putendl(data.paths[i][j]->key);
+				j++;
+			}
+			ft_putendl("");
+		}
+		i++;
+	}
 
 // t_hash_graph *test;
 // t_neighbours *room;

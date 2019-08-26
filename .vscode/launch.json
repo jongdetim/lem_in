@@ -9,7 +9,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/lem_in",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

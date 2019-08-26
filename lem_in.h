@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/23 15:49:00 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/26 16:50:59 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ t_hash_graph	*find_node(t_lem_in *data, char *key);
  */
 void	bfs(t_lem_in *data);
 
-
+/*
+** pathing.c
+*/
+void		find_paths(t_lem_in *data);
 
 #endif

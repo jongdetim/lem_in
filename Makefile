@@ -1,44 +1,57 @@
-INCLUDES = -Ilibft/Includes -I.
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
+#    Updated: 2019/08/26 16:46:53 by tide-jon      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
-LIB = libft
+INCLUDES =		-Ilibft/Includes -I.
 
-LIB.A = libft.a
+LIB =			libft
 
-LI_SRC_NAME = input_check.c lem_in.c main.c validate_format.c trim_graph.c bfs.c
+LIB.A =			libft.a
 
-LI_OBJ_NAME = $(LI_SRC_NAME:.c=.o)
+LI_SRC_NAME =	input_check.c lem_in.c main.c validate_format.c trim_graph.c \
+				bfs.c pathing.c
 
-SRC_PATH = src
+LI_OBJ_NAME =	$(LI_SRC_NAME:.c=.o)
 
-OBJ_PATH = obj
+SRC_PATH =		src
 
-LI_SRC = $(addprefix $(SRC_PATH)/, $(LI_SRC_NAME))
+OBJ_PATH =		obj
 
-LI_OBJ = $(addprefix $(OBJ_PATH)/, $(LI_OBJ_NAME))
+LI_SRC =		$(addprefix $(SRC_PATH)/, $(LI_SRC_NAME))
 
-NAME_C = lem_in
+LI_OBJ =		$(addprefix $(OBJ_PATH)/, $(LI_OBJ_NAME))
 
-FLAGS = -Wall -Wextra -Werror
+NAME_C =		lem_in
 
-all : library $(NAME_C)
+FLAGS =			-Wall -Wextra -Werror
+
+all : 			library $(NAME_C)
 
 library :
-	make -C $(LIB)
+				make -C $(LIB)
 
 $(NAME_C) : $(LI_OBJ)
-	gcc -g -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
+				gcc -g -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
 
 $(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
-	@mkdir -p $(OBJ_PATH)
-	@mkdir -p $(dir $(LI_OBJ))
-	gcc -g -o $@ -c $< $(INCLUDES) $(FLAGS)
+				@mkdir -p $(OBJ_PATH)
+				@mkdir -p $(dir $(LI_OBJ))
+				gcc -g -o $@ -c $< $(INCLUDES) $(FLAGS)
 
 clean :
-	rm -fr $(OBJ_PATH)
-	make clean -C $(LIB)
+				rm -fr $(OBJ_PATH)
+				make clean -C $(LIB)
 
 fclean : clean
-	rm -f $(NAME_C)
-	make fclean -C $(LIB)
+				rm -f $(NAME_C)
+				make fclean -C $(LIB)
 
 re : fclean all
