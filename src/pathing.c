@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/26 19:05:29 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/27 15:06:08 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static void	allocate_paths(t_lem_in *data)
 	int	i;
 
 	i = 0;
-	data->paths = (t_hash_graph***)malloc(sizeof(t_hash_graph**)
+	data->paths = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
 																* PATH_NUMS);
 	while (i < PATH_NUMS)
 	{
-		data->paths[i] = (t_hash_graph**)malloc(sizeof(t_hash_graph*)
+		data->paths[i] = (t_hash_graph**)ft_memalloc(sizeof(t_hash_graph*)
 																* PATH_LEN);
 		i++;
 	}
@@ -72,8 +72,12 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 	j = 0;
 	if (n == 0 && j < PATH_LEN)
 	{
-		while (queue->path[i] != NULL)			// <-- als (j == path_len - 1) moet geen nieuwe stap worden toegevoegd
+		while (queue->path[i] != NULL)
+		{
 			i++;
+			if (i == PATH_LEN)
+				return ;
+		}
 		queue->path[i] = nb->node;
 		check_finish(queue->path, queue, nb);
 	}
@@ -81,12 +85,18 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 	{
 		ft_putendl("a");
 		while (paths[i][0] != NULL)
+		{
 			i++;
+			if (i == PATH_NUMS)
+				return ;
+		}
 		ft_putendl("b");
-		while (queue->path[j + 1] != NULL)			// <-- als (j == path_len - 1) moet geen nieuwe stap worden toegevoegd
+		while (queue->path[j + 1] != NULL)
 		{
 			paths[i][j] = queue->path[j];
 			j++;
+			if (j == PATH_LEN)
+				return ;
 		}
 		ft_putendl("c");
 		paths[i][j] = nb->node;
