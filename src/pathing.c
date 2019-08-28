@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/28 15:08:15 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 17:12:22 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ static void	pop_queue_path(t_path_queue **queue)
 	*queue = temp;
 }
 
-static void	enqueue_path(t_path_queue *queue, t_hash_graph **path)
+static void	enqueue_path(t_hash_graph **path, t_lem_in *data)
 {
 	t_path_queue *current;
-
-	current = queue;
-	while (current->next != NULL)
-		current = current->next;
+	
+	current = data->end_of_queue;
 	current->next = (t_path_queue*)malloc(sizeof(t_path_queue));
 	current->next->path = path;
 	current->next->next = NULL;
+	data->end_of_queue = current->next;
 }
 
 static void	allocate_paths(t_lem_in *data)
@@ -50,14 +49,14 @@ static void	allocate_paths(t_lem_in *data)
 																* PATH_NUMS);
 }
 
-static void	check_finish(t_hash_graph **path, t_path_queue *queue,
+static void	check_finish(t_hash_graph **path,
 									t_neighbours *nb, t_lem_in *data)
 {
 	int	i;
 
 	i = 0;
 	if (nb->node->type != 2)
-		enqueue_path(queue, path);
+		enqueue_path(path, data);
 	else
 	{
 		while (data->complete[i] != NULL)
@@ -83,7 +82,7 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 				return ;
 		}
 		queue->path[i] = nb->node;
-		check_finish(queue->path, queue, nb, data);
+		check_finish(queue->path, nb, data);
 	}
 	else if (i < PATH_NUMS && j < PATH_LEN)
 	{
@@ -101,7 +100,7 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 				return ;
 		}
 		data->paths[i][j] = nb->node;
-		check_finish(data->paths[i], queue, nb, data);
+		check_finish(data->paths[i], nb, data);
 	}
 }
 
@@ -164,6 +163,7 @@ void		find_paths(t_lem_in *data)
 	queue = (t_path_queue*)malloc(sizeof(t_path_queue));
 	queue->path = data->paths[0];
 	queue->next = NULL;
+	data->end_of_queue = queue;
 	while (queue != NULL)
 	{
 		deal_step(data, queue, nb, n);
