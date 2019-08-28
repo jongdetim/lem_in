@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 14:42:36 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 16:41:51 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct		s_lem_in_lst
 	struct s_lem_in_lst	*next;
 }					t_lem_in_lst;
 
+typedef struct		s_combos
+{
+	t_hash_graph		***combo;
+	struct s_combos		*next;
+}					t_combos;
+
 typedef struct		s_lem_in
 {
 	int				amount;
@@ -67,12 +73,15 @@ typedef struct		s_lem_in
 	int				edges;
 	int				hashsize;
 	int				collisions;
+	int				path_num;
 	t_str_lst		*input;
 	t_lem_in_lst	*node_lst;
 	t_hash_graph	*graph;
 	t_hash_graph	*start;
 	t_hash_graph	*end;
 	t_hash_graph	***paths;
+	t_hash_graph	***complete;
+	t_combos		*combo_lst;
 }					t_lem_in;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 14:29:40 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 15:10:41 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ int		main(void)
 		}
 		i++;
 	}
+
+//	PRINT COMPLETE PATHS
+	i = 0;
+	while (data.complete[i] != NULL)
+		i++;
+	ft_printf("%i complete paths found", i);
+
 
 // t_hash_graph *test;
 // t_neighbours *room;

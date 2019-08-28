@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/27 15:16:58 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 15:08:15 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,27 @@ static void	allocate_paths(t_lem_in *data)
 																* PATH_LEN);
 		i++;
 	}
+	data->complete = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
+																* PATH_NUMS);
 }
 
 static void	check_finish(t_hash_graph **path, t_path_queue *queue,
-												t_neighbours *nb)
+									t_neighbours *nb, t_lem_in *data)
 {
+	int	i;
+
+	i = 0;
 	if (nb->node->type != 2)
 		enqueue_path(queue, path);
 	else
 	{
-		/* eventueel opslaan dat deze specifieke path klaar is zodat het
-		makkelijker wordt om te zien welke paths compleet zijn aan het einde.
-		denk bijvoorbeeld aan een array van PATH_NUMS met pointers naar paths
-		die klaar zijn */
+		while (data->complete[i] != NULL)
+			i++;
+		data->complete[i] = path;
 	}
 }
 
-static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
+static void	extend_path(t_lem_in *data, t_path_queue *queue,
 										t_neighbours *nb, int n)
 {
 	int i;
@@ -79,11 +83,11 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 				return ;
 		}
 		queue->path[i] = nb->node;
-		check_finish(queue->path, queue, nb);
+		check_finish(queue->path, queue, nb, data);
 	}
 	else if (i < PATH_NUMS && j < PATH_LEN)
 	{
-		while (paths[i][0] != NULL)
+		while (data->paths[i][0] != NULL)
 		{
 			i++;
 			if (i == PATH_NUMS)
@@ -91,13 +95,13 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 		}
 		while (queue->path[j + 1] != NULL)
 		{
-			paths[i][j] = queue->path[j];
+			data->paths[i][j] = queue->path[j];
 			j++;
 			if (j == PATH_LEN)
 				return ;
 		}
-		paths[i][j] = nb->node;
-		check_finish(paths[i], queue, nb);
+		data->paths[i][j] = nb->node;
+		check_finish(data->paths[i], queue, nb, data);
 	}
 }
 
@@ -113,7 +117,7 @@ static void	delete_path(t_hash_graph **path)
 	}
 }
 
-static void	deal_step(t_hash_graph ***paths, t_path_queue *queue,
+static void	deal_step(t_lem_in *data, t_path_queue *queue,
 											t_neighbours *nb, int n)
 {
 	int	i;
@@ -138,7 +142,7 @@ static void	deal_step(t_hash_graph ***paths, t_path_queue *queue,
 		}
 		if (j == i)
 		{
-			extend_path(paths, queue, nb, n);
+			extend_path(data, queue, nb, n);
 			n++;
 		}
 		nb = nb->neighbours;
@@ -160,10 +164,9 @@ void		find_paths(t_lem_in *data)
 	queue = (t_path_queue*)malloc(sizeof(t_path_queue));
 	queue->path = data->paths[0];
 	queue->next = NULL;
-
 	while (queue != NULL)
 	{
-		deal_step(data->paths, queue, nb, n);
+		deal_step(data, queue, nb, n);
 		pop_queue_path(&queue);
 	}
 }
