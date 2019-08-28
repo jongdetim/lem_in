@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 15:10:41 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 19:59:11 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,33 +60,46 @@ int		main(void)
 	}
 	bfs(&data);
 	find_paths(&data);
-
+	
+	choose_combos(&data);
+	
 //	PRINT PATHS
 	int i;
-	int j;
+	// int j;
 
-	i = 0;
-	while (i < PATH_NUMS)
-	{
-		j = 0;
-		if (data.paths[i][j] != NULL)
-		{
-			while (j < PATH_LEN && data.paths[i][j] != NULL)
-			{
-				ft_putendl(data.paths[i][j]->key);
-				j++;
-			}
-			ft_putendl("");
-		}
-		i++;
-	}
+	// i = 0;
+	// while (i < PATH_NUMS)
+	// {
+	// 	j = 0;
+	// 	if (data.paths[i][j] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.paths[i][j] != NULL)
+	// 		{
+	// 			ft_putendl(data.paths[i][j]->key);
+	// 			j++;
+	// 		}
+	// 		ft_putendl("");
+	// 	}
+	// 	i++;
+	// }
 
 //	PRINT COMPLETE PATHS
-	i = 0;
-	while (data.complete[i] != NULL)
-		i++;
-	ft_printf("%i complete paths found", i);
+	// i = 0;
+	// while (data.complete[i] != NULL)
+	// 	i++;
+	// ft_printf("%i complete paths found", i);
 
+//	PRINT ALL POSSIBLE COMBINATIONS (INCLUDING OVERLAPPING)
+
+	i = 0;
+	while (data.combo_lst != NULL)
+	{
+		i++;
+		data.combo_lst = data.combo_lst->next;
+	}
+	ft_putnbr(i);
+
+	ft_putendl("TO DO: combinaties checken op overlap. indien geen overlap: formule gebruiken en (laagste) waarde opslaan");
 
 // t_hash_graph *test;
 // t_neighbours *room;

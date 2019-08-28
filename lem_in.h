@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 16:41:51 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 18:56:06 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 
-# define PATH_NUMS 10000
+# define PATH_NUMS 1000
 # define PATH_LEN 50
 
 typedef struct		s_str_lst
@@ -74,6 +74,8 @@ typedef struct		s_lem_in
 	int				hashsize;
 	int				collisions;
 	int				path_num;
+	int				combo_len;
+	t_path_queue	*end_of_queue;
 	t_str_lst		*input;
 	t_lem_in_lst	*node_lst;
 	t_hash_graph	*graph;
@@ -141,5 +143,10 @@ void	bfs(t_lem_in *data);
 ** pathing.c
 */
 void		find_paths(t_lem_in *data);
+
+/*
+** combos.c
+*/
+void		choose_combos(t_lem_in *data);
 
 #endif
