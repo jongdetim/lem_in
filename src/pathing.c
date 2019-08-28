@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/27 15:06:08 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/27 15:16:58 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,12 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 	}
 	else if (i < PATH_NUMS && j < PATH_LEN)
 	{
-		ft_putendl("a");
 		while (paths[i][0] != NULL)
 		{
 			i++;
 			if (i == PATH_NUMS)
 				return ;
 		}
-		ft_putendl("b");
 		while (queue->path[j + 1] != NULL)
 		{
 			paths[i][j] = queue->path[j];
@@ -98,7 +96,6 @@ static void	extend_path(t_hash_graph ***paths, t_path_queue *queue,
 			if (j == PATH_LEN)
 				return ;
 		}
-		ft_putendl("c");
 		paths[i][j] = nb->node;
 		check_finish(paths[i], queue, nb);
 	}
@@ -124,11 +121,14 @@ static void	deal_step(t_hash_graph ***paths, t_path_queue *queue,
 
 	i = 0;
 	while (queue->path[i + 1] != NULL)
+	{
 		i++;
+		if (i == PATH_LEN)
+			return ;
+	}
 	nb = queue->path[i]->neighbours;
 	while (nb != NULL)
 	{
-		ft_putendl("testme");
 		j = 0;
 		while (j < i)
 		{
@@ -138,7 +138,6 @@ static void	deal_step(t_hash_graph ***paths, t_path_queue *queue,
 		}
 		if (j == i)
 		{
-			ft_putendl("123");
 			extend_path(paths, queue, nb, n);
 			n++;
 		}
@@ -164,9 +163,7 @@ void		find_paths(t_lem_in *data)
 
 	while (queue != NULL)
 	{
-		ft_putendl("BWHUOY");
 		deal_step(data->paths, queue, nb, n);
-		ft_putendl("ding");
 		pop_queue_path(&queue);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/27 14:31:17 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 14:29:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigmap2", 0, O_RDONLY);
+	open("./bigsuper", 0, O_RDONLY);
 
 	data.collisions = 0;
 	init_lem_in(&data);
@@ -66,12 +66,12 @@ int		main(void)
 	int j;
 
 	i = 0;
-	while (i < PATH_NUMS - 1)
+	while (i < PATH_NUMS)
 	{
 		j = 0;
 		if (data.paths[i][j] != NULL)
 		{
-			while (data.paths[i][j] != NULL)
+			while (j < PATH_LEN && data.paths[i][j] != NULL)
 			{
 				ft_putendl(data.paths[i][j]->key);
 				j++;

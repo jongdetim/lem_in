@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/26 16:50:59 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 14:42:36 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 
-# define PATH_NUMS 2000
-# define PATH_LEN 40
+# define PATH_NUMS 10000
+# define PATH_LEN 50
 
 typedef struct		s_str_lst
 {
@@ -34,6 +34,7 @@ typedef struct		s_hash_graph
 	char				*key;
 	int					type;
 	int					visited;
+	int					level;
 	t_neighbours		*neighbours;
 	struct s_hash_graph	*coll;
 }					t_hash_graph;

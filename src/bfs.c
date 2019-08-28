@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/21 12:34:38 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/22 13:50:19 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/28 14:50:39 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ static void		enqueue(t_bfs_queue *queue, t_hash_graph *node)
 	}
 }
 
+void			level_graph(t_hash_graph *node, t_neighbours *nb)
+{
+	if (nb->node->level == 0 || nb->node->level > node->level + 1)
+		nb->node->level = node->level + 1;
+}
+
 void			bfs(t_lem_in *data)
 {
 	t_bfs_queue		*queue;
@@ -45,7 +51,7 @@ void			bfs(t_lem_in *data)
 
 	queue = (t_bfs_queue*)malloc(sizeof(t_bfs_queue)); 	// malloc queue linked list
 	queue->next = NULL;
-	node = data->start;
+	node = data->end;
 	node->visited = 1;
 	queue->node = node;								// set queue node to start
 	while (queue != NULL)								// check of er een node in zit (eerste keer dus start checken)
@@ -54,6 +60,7 @@ void			bfs(t_lem_in *data)
 		neighbours = node->neighbours;				// set neighbours to the neighbours node
 		while (neighbours != NULL)						// check if there are any neighbours
 		{
+			level_graph(node, neighbours);
 			enqueue(queue, neighbours->node);			// go in queue, give current node and neighbouring node
 			neighbours = neighbours->neighbours;
 		}
