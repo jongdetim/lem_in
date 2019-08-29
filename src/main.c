@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/29 19:27:50 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/29 20:13:57 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigsuper", 0, O_RDONLY);
+	open("./flow10", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -65,6 +65,27 @@ int		main(void)
 //	PRINT SOLUTION AMOUNT OF STEPS
 
 	// ft_putnbr(data.solution_steps);
+
+//	PRINT SOLUTION PATH
+	int i;
+	int j;
+
+	i = 0;
+	while (i < PATH_NUMS && data.solution[i] != NULL)
+	{
+		j = 0;
+		if (data.solution[i][j] != NULL)
+		{
+			while (j < PATH_LEN && data.solution[i][j] != NULL)
+			{
+				ft_putendl(data.solution[i][j]->key);
+				j++;
+			}
+			ft_putendl("");
+		}
+		i++;
+	}
+
 
 //	PRINT PATHS
 	// int i;
