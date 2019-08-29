@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 19:59:11 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/29 19:27:50 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		main(void)
 	close(0);
 	open("./bigsuper", 0, O_RDONLY);
 
-	data.collisions = 0;
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
 	while (get_next_line(0, &line))
@@ -60,11 +59,15 @@ int		main(void)
 	}
 	bfs(&data);
 	find_paths(&data);
-	
 	choose_combos(&data);
-	
+
+
+//	PRINT SOLUTION AMOUNT OF STEPS
+
+	// ft_putnbr(data.solution_steps);
+
 //	PRINT PATHS
-	int i;
+	// int i;
 	// int j;
 
 	// i = 0;
@@ -90,16 +93,16 @@ int		main(void)
 	// ft_printf("%i complete paths found", i);
 
 //	PRINT ALL POSSIBLE COMBINATIONS (INCLUDING OVERLAPPING)
+	// int	i;
+	// i = 0;
+	// while (data.combo_lst != NULL)
+	// {
+	// 	i++;
+	// 	data.combo_lst = data.combo_lst->next;
+	// }
+	// ft_putnbr(i);
 
-	i = 0;
-	while (data.combo_lst != NULL)
-	{
-		i++;
-		data.combo_lst = data.combo_lst->next;
-	}
-	ft_putnbr(i);
-
-	ft_putendl("TO DO: combinaties checken op overlap. indien geen overlap: formule gebruiken en (laagste) waarde opslaan");
+	// ft_putendl("TO DO: combinaties checken op overlap. indien geen overlap: formule gebruiken en (laagste) waarde opslaan");
 
 // t_hash_graph *test;
 // t_neighbours *room;

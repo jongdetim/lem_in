@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/28 19:10:19 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/29 18:51:49 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ void	init_lem_in(t_lem_in *data)
 	data->combo_len = 0;
 	data->combo_lst = NULL;
 	data->path_num = 0;
+	data->solution = NULL;
 }
 
 void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)
