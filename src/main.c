@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/29 20:13:57 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/30 18:05:09 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./flow10", 0, O_RDONLY);
+	open("./try", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -62,29 +62,53 @@ int		main(void)
 	choose_combos(&data);
 
 
-//	PRINT SOLUTION AMOUNT OF STEPS
+	// PRINT AMOUNT OF STEPS IN EVERY PATH
+	// int i;
+	// int j;
+	// int	k;
+
+	// k = 0;
+	// i = 0;
+	// j = 0;
+	// while (i < PATH_NUMS)
+	// {
+	// 	j = 0;
+	// 	if (data.complete[i] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.complete[i][j] != NULL)
+	// 			j++;
+	// 		ft_putnbr(j - 1);
+	// 		ft_putendl("");
+	// 		k++;
+	// 	}
+	// 	i++;
+	// }
+	// ft_printf("%i paths", k);
+
+	// PRINT SOLUTION AMOUNT OF STEPS
 
 	// ft_putnbr(data.solution_steps);
+	// ft_putendl("");
 
-//	PRINT SOLUTION PATH
-	int i;
-	int j;
+	// // PRINT SOLUTION COMBO
+	// int i;
+	// int j;
 
-	i = 0;
-	while (i < PATH_NUMS && data.solution[i] != NULL)
-	{
-		j = 0;
-		if (data.solution[i][j] != NULL)
-		{
-			while (j < PATH_LEN && data.solution[i][j] != NULL)
-			{
-				ft_putendl(data.solution[i][j]->key);
-				j++;
-			}
-			ft_putendl("");
-		}
-		i++;
-	}
+	// i = 0;
+	// while (i < PATH_NUMS && data.solution[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	if (data.solution[i][j] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.solution[i][j] != NULL)
+	// 		{
+	// 			ft_putendl(data.solution[i][j]->key);
+	// 			j++;
+	// 		}
+	// 		ft_putendl("");
+	// 	}
+	// 	i++;
+	// }
 
 
 //	PRINT PATHS
@@ -107,7 +131,8 @@ int		main(void)
 	// 	i++;
 	// }
 
-//	PRINT COMPLETE PATHS
+	// PRINT COMPLETE PATHS
+	// int i;
 	// i = 0;
 	// while (data.complete[i] != NULL)
 	// 	i++;

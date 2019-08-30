@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/28 17:12:22 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/08/30 17:46:57 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ static void	allocate_paths(t_lem_in *data)
 
 	i = 0;
 	data->paths = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
-																* PATH_NUMS);
+														* (PATH_NUMS + 1));
 	while (i < PATH_NUMS)
 	{
 		data->paths[i] = (t_hash_graph**)ft_memalloc(sizeof(t_hash_graph*)
-																* PATH_LEN);
+															* (PATH_LEN + 1));
 		i++;
 	}
 	data->complete = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
-																* PATH_NUMS);
+														* (PATH_NUMS + 1));
 }
 
 static void	check_finish(t_hash_graph **path,

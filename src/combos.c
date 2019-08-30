@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/28 15:27:09 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/29 20:11:32 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/08/30 16:43:25 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	save_combo(t_lem_in *data, int *arr)
 	i = 0;
 	lst = (t_combos*)ft_memalloc(sizeof(t_combos));
 	lst->combo = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
-												* data->combo_len + 1);
+												* (data->combo_len + 1));
 	while (i < data->combo_len)
 	{
 		lst->combo[i] = data->complete[arr[i]];
@@ -97,16 +97,17 @@ int			select_helper(t_combos *drone, int i, int j)
 	t_hash_graph	*compare;
 
 	compare = drone->combo[j][i];
-	while (drone->combo[j + 1] != NULL)
+	j++;
+	while (drone->combo[j] != NULL)
 	{
-		j++;
-		while (drone->combo[j][i + 1] != NULL && i < PATH_LEN - 1)
+		i = 1;
+		while (i < PATH_LEN - 1 && drone->combo[j][i + 1] != NULL)
 		{
 			if (drone->combo[j][i] == compare)
 				return (0);
 			i++;
 		}
-		i = 1;
+		j++;
 	}
 	return (1);
 }
@@ -133,7 +134,7 @@ int			select_combo(t_combos *drone)
 
 void		eval_combo(t_combos *drone, t_lem_in *data)
 {
-	int			steps;
+	float		steps;
 	int			paths;
 	int			nodes;
 	int			i;
@@ -145,18 +146,19 @@ void		eval_combo(t_combos *drone, t_lem_in *data)
 	while (drone->combo[paths] != NULL)
 	{
 		i = 0;
-		while (drone->combo[paths][i + 1] != NULL && i < PATH_LEN - 1)
+		while (drone->combo[paths][i + 2] != NULL && i < PATH_LEN - 2)
 			i++;
 		nodes += i;
 		paths++;
 	}
-	steps = (data->amount + nodes) / paths;
-	if (data->solution == NULL || steps < data->solution_steps)
+	steps = (float)(data->amount + nodes) / (float)paths;
+	if (data->solution == NULL || (int)steps < data->solution_steps)
 	{
 		data->solution = drone->combo;
-		data->solution_steps = steps;
+		ft_printf("%f steps\n%i nodes\n%i paths\n\n", steps, nodes, paths);
+		data->solution_steps = (float)(int)(steps) == steps ?
+								(int)steps : (int)(steps + 1);
 	}
-	ft_printf("%i steps\n%i nodes\n %i paths\n\n", steps, nodes, paths);
 }
 
 void		choose_combos(t_lem_in *data)
