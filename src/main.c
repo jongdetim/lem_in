@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/30 18:05:09 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/02 20:55:06 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./try", 0, O_RDONLY);
+	open("./bigsuper3", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -62,35 +62,35 @@ int		main(void)
 	choose_combos(&data);
 
 
-	// PRINT AMOUNT OF STEPS IN EVERY PATH
-	// int i;
-	// int j;
-	// int	k;
+//	PRINT AMOUNT OF STEPS IN EVERY PATH
+	int	i;
+	int	j;
+	int	k;
 
-	// k = 0;
-	// i = 0;
-	// j = 0;
-	// while (i < PATH_NUMS)
-	// {
-	// 	j = 0;
-	// 	if (data.complete[i] != NULL)
-	// 	{
-	// 		while (j < PATH_LEN && data.complete[i][j] != NULL)
-	// 			j++;
-	// 		ft_putnbr(j - 1);
-	// 		ft_putendl("");
-	// 		k++;
-	// 	}
-	// 	i++;
-	// }
-	// ft_printf("%i paths", k);
+	k = 0;
+	i = 0;
+	j = 0;
+	while (i < PATH_NUMS)
+	{
+		j = 0;
+		if (data.paths[i] != NULL)
+		{
+			while (j < PATH_LEN && data.paths[i][j] != NULL)
+				j++;
+			// ft_putnbr(j - 1);
+			// ft_putendl("");
+			k++;
+		}
+		i++;
+	}
+	ft_printf("%i paths", k);
 
-	// PRINT SOLUTION AMOUNT OF STEPS
+//	PRINT SOLUTION AMOUNT OF STEPS
 
-	// ft_putnbr(data.solution_steps);
-	// ft_putendl("");
+	ft_putnbr(data.solution_steps);
+	ft_putendl("");
 
-	// // PRINT SOLUTION COMBO
+//	PRINT SOLUTION COMBO
 	// int i;
 	// int j;
 
@@ -131,7 +131,7 @@ int		main(void)
 	// 	i++;
 	// }
 
-	// PRINT COMPLETE PATHS
+//	PRINT COMPLETE PATHS
 	// int i;
 	// i = 0;
 	// while (data.complete[i] != NULL)

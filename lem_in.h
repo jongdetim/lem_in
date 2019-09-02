@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/29 20:01:19 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/02 20:46:39 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 
 # define PATH_NUMS 10000
-# define PATH_LEN 50
+# define PATH_LEN 91
 
 typedef struct		s_str_lst
 {
@@ -74,7 +74,7 @@ typedef struct		s_lem_in
 	int				hashsize;
 	int				collisions;
 	int				path_num;
-	int				combo_len;
+	int				combo_max;
 	t_path_queue	*end_of_queue;
 	t_bfs_queue		*end_of_bfs_queue;
 	t_str_lst		*input;

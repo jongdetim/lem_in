@@ -6,13 +6,13 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/28 15:27:09 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/08/30 16:43:25 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/02 20:34:17 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-static void	get_combo_len(t_lem_in *data)
+static void	get_combo_max(t_lem_in *data)
 {
 	int 			i;
 	t_neighbours	*nb;
@@ -24,7 +24,7 @@ static void	get_combo_len(t_lem_in *data)
 		i++;
 		nb = nb->neighbours;
 	}
-	data->combo_len = i;
+	data->combo_max = i;
 	i = 0;
 	nb = data->end->neighbours;
 	while (nb != NULL)
@@ -32,152 +32,149 @@ static void	get_combo_len(t_lem_in *data)
 		i++;
 		nb = nb->neighbours;
 	}
-	if (data->combo_len > i)
-		data->combo_len = i;
-	if (data->path_num < data->combo_len)
-		data->combo_len = data->path_num;
+	if (data->combo_max > i)
+		data->combo_max = i;
+	if (data->path_num < data->combo_max)
+		data->combo_max = data->path_num;
+}
+
+static float	calculate_steps(t_lem_in *data, int *arr)
+{
+	int		k;
+	int		l;
+	int		nodes;
+	int		paths;
+	float	steps;
+
+	k = 0;
+	paths = 0;
+	nodes = 0;
+	while (k < data->combo_max && arr[k] != -1)
+	{
+		l = 0;
+		while (data->complete[arr[k]][l + 2] != NULL && l < PATH_LEN - 2)
+			l++;
+		nodes += l;
+		paths++;
+		k++;
+	}
+	steps = (float)(data->amount + nodes) / (float)paths;
+	return (steps);
+}
+
+static int	check_improvement(int j, t_lem_in *data, int *arr)
+{
+	float	steps;
+	int		k;
+
+	k = 0;
+	steps = calculate_steps(data, arr);
+	while (arr[k] != -1)
+		k++;
+	arr[k] = j;
+	if (calculate_steps(data, arr) < steps)
+		return (1);
+	arr[k] = -1;
+	return (0);
+}
+
+static int	check_overlap(int j, t_lem_in *data, int *arr)
+{
+	int	k;
+	int l;
+	int m;
+
+	k = 0;
+	while (data->complete[arr[k]] != NULL && arr[k] != j)
+	{
+		l = 1;
+		while (data->complete[arr[k]][l + 1] != NULL && l < PATH_LEN - 1)
+		{
+			m = 1;
+			while (data->complete[j][m + 1] != NULL && m < PATH_LEN - 1)
+			{
+				if (data->complete[arr[k]][l] == data->complete[j][m])
+					return (0);
+				m++;
+			}
+			l++;
+		}
+		k++;
+	}
+	return (1);
+}
+
+static void	combo_helper(int j, t_lem_in *data, int *arr)
+{
+	int k;
+
+	k = 0;
+	if (check_improvement(j, data, arr) == 1)
+	{
+		if (check_overlap(j, data, arr) != 1)
+		{
+			while (arr[k] != j)
+				k++;
+			arr[k] = -1;
+		}
+	}
 }
 
 static void	save_combo(t_lem_in *data, int *arr)
 {
-	t_combos	*lst;
-	int			i;
+	float	steps;
+	int		i;
 
 	i = 0;
-	lst = (t_combos*)ft_memalloc(sizeof(t_combos));
-	lst->combo = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
-												* (data->combo_len + 1));
-	while (i < data->combo_len)
+	steps = calculate_steps(data, arr);
+	steps = (float)(int)(steps) == steps ? steps : (steps + 1);
+	if ((int)steps < data->solution_steps || data->solution_steps == 0)
 	{
-		lst->combo[i] = data->complete[arr[i]];
-		i++;
-	}
-	lst->next = data->combo_lst;
-	data->combo_lst = lst;
-}
-
-static void	combo_helper(int *i, int *r, t_lem_in *data, int *arr)
-{
-	(arr)[*r] = *i;
-	if (*r == data->combo_len - 1)
-	{
-		save_combo(data, arr);
-		(*i)++;
-	}
-	else
-	{
-		*i = (arr)[*r] + 1;
-		(*r)++;
+		data->solution_steps = (int)steps;
+		if (data->solution == NULL)
+			data->solution = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
+													* (data->combo_max + 1));
+		while (i < data->combo_max && arr[i] != -1)
+		{
+			data->solution[i] = data->complete[arr[i]];
+			i++;
+		}
+		data->solution[i] = NULL;
 	}
 }
 
 static void	find_combos(t_lem_in *data)
 {
-	int			arr[data->combo_len];
-	int			r;
-	int			i;
+	int				arr[data->combo_max];
+	int				j;
+	int				i;
 
-	r = 0;
 	i = 0;
-	while (r >= 0)
+	while (data->complete[i] != NULL)
 	{
-		if (i <= (data->path_num + (r - data->combo_len)))
-			combo_helper(&i, &r, data, arr);
-		else
+		j = 0;
+		while(j < data->combo_max)
 		{
-			r--;
-			if (r >= 0)
-				i = arr[r] + 1;
-		}
-	}
-}
-
-int			select_helper(t_combos *drone, int i, int j)
-{
-	t_hash_graph	*compare;
-
-	compare = drone->combo[j][i];
-	j++;
-	while (drone->combo[j] != NULL)
-	{
-		i = 1;
-		while (i < PATH_LEN - 1 && drone->combo[j][i + 1] != NULL)
+			arr[j] = -1;
+			j++;
+		} 
+		j = 0;
+		arr[0] = i;
+		while (data->complete[j] != NULL && arr[data->combo_max - 1] == -1)
 		{
-			if (drone->combo[j][i] == compare)
-				return (0);
-			i++;
+			if (i != j)
+				combo_helper(j, data, arr);
+			j++;
 		}
-		j++;
-	}
-	return (1);
-}
-
-int			select_combo(t_combos *drone)
-{
-	int			i;
-	int			j;
-
-	j = 0;
-	while (drone->combo[j + 1] != NULL)
-	{
-		i = 1;
-		while (drone->combo[j][i + 1] != NULL && i < PATH_LEN - 1)
-		{
-			if (select_helper(drone, i, j) == 0)
-				return (0);
-			i++;
-		}
-		j++;
-	}
-	return (1);
-}
-
-void		eval_combo(t_combos *drone, t_lem_in *data)
-{
-	float		steps;
-	int			paths;
-	int			nodes;
-	int			i;
-
-	steps = 0;
-	paths = 0;
-	nodes = 0;
-	i = 0;
-	while (drone->combo[paths] != NULL)
-	{
-		i = 0;
-		while (drone->combo[paths][i + 2] != NULL && i < PATH_LEN - 2)
-			i++;
-		nodes += i;
-		paths++;
-	}
-	steps = (float)(data->amount + nodes) / (float)paths;
-	if (data->solution == NULL || (int)steps < data->solution_steps)
-	{
-		data->solution = drone->combo;
-		ft_printf("%f steps\n%i nodes\n%i paths\n\n", steps, nodes, paths);
-		data->solution_steps = (float)(int)(steps) == steps ?
-								(int)steps : (int)(steps + 1);
+		save_combo(data, arr);
+		i++;
 	}
 }
 
 void		choose_combos(t_lem_in *data)
 {
-	t_combos	*drone;
-
 	while (data->complete[data->path_num] != NULL)
 		data->path_num++;
-	get_combo_len(data);
-	while (data->combo_len != 0)
-	{
-		find_combos(data);
-		data->combo_len--;
-	}
-	drone = data->combo_lst;
-	while (drone != NULL)
-	{
-		if (select_combo(drone) == 1)
-			eval_combo(drone, data);
-		drone = drone->next;
-	}
+	get_combo_max(data);
+	find_combos(data);
 }
