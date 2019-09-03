@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigsuper", 0, O_RDONLY);
+	open("./bigsuper5", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -70,17 +70,23 @@ int		main(void)
 	k = 0;
 	i = 0;
 	j = 0;
-	while (i < PATH_NUMS && data.paths[i][0] != NULL)
+	while (i < PATH_NUMS && data.complete[i] != NULL)
 	{
 		j = 0;
-		if (data.paths[i][0] != NULL)
+		if (data.complete[i][0] != NULL)
 		{
-			while (j < PATH_LEN && data.paths[i][j] != NULL)
+			while (j < PATH_LEN && data.complete[i][j] != NULL)
 				j++;
 			// ft_putnbr(j - 1);
 			// ft_putendl("");
 			k++;
 		}
+		else if (i < 500)
+		{
+			ft_putnbr(i);
+			ft_putendl("");
+		}
+		
 		i++;
 	}
 	ft_printf("%i paths\n", k);
@@ -88,7 +94,7 @@ int		main(void)
 //	PRINT SOLUTION AMOUNT OF STEPS
 
 	ft_putnbr(data.solution_steps);
-	ft_putendl("");
+	ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
 	// int i;

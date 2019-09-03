@@ -52,7 +52,7 @@ int			ft_hash_str(char *key, int size)
 	key_len = ft_strlen(key);
 	while (key[i] != '\0')
 	{
-		index = index + key[key_len - i - 1] * ((32 ^ i) + index * i ^ 7);
+		index = (index) + (key[key_len - i - 1]) * ((32 ^ i) + (index) * (i ^ 7));
 		i++;
 	}
 	index = ft_abs(index);

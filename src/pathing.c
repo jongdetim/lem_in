@@ -126,7 +126,7 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	while (queue->path[i + 1] != NULL)
 	{
 		i++;
-		if (i == PATH_LEN)
+		if (i == PATH_LEN - 1)
 			return ;
 	}
 	nb = queue->path[i]->neighbours;
