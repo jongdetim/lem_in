@@ -6,16 +6,15 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/22 15:37:02 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 16:38:20 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-int		validate_ants(t_lem_in *data)
+void	validate_ants(t_lem_in *data)
 {
 	char	*str;
-	int		ants;
 
 	while (get_next_line(0, &str))
 	{
@@ -25,11 +24,9 @@ int		validate_ants(t_lem_in *data)
 	}
 	if (!ft_validate_format("%d", str) || str[0] == '-')
 			ft_error("Input of ants is invalid! :(");
-	ants = ft_atoi(str);
-	if (ants == 0)
+	data->amount = ft_atoi(str);
+	if (data->amount == 0)
 		ft_error("Ants can't be zero! :(");
-	// ft_printf("number of ants right now: %s\n", str);
-	return (ants);
 }
 
 char	*check_comment(char *str, t_lem_in *data)

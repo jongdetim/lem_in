@@ -6,19 +6,40 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/02 22:47:37 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 16:39:58 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-// nog te fixen:
-// comments tussen ##start en room_start of ##end en room_end
-
 void	ft_error(char str[100])
 {
 	ft_printf("%s\n", str);
 	exit (0);
+}
+
+void		free_stuff(t_print_list *ptr)
+{
+	t_print_list	*temp;
+
+	temp = ptr; 
+	while (temp != NULL)
+	{
+		ptr = ptr->next;
+		free(temp);
+		temp = ptr;
+	}
+}
+
+void        print_solution(t_lem_in *data)
+{
+    t_print_list	*ptr;
+
+	ptr = (t_print_list*)malloc(sizeof(t_print_list));
+	print_lst_rev(data->input);
+	print_init(data, ptr);
+	print_ants(data, ptr);
+	free_stuff(ptr);
 }
 
 int		read_edge(char *line, t_lem_in *data)
@@ -41,10 +62,10 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigsuper5", 0, O_RDONLY);
+	open("./testfile", 0, O_RDONLY);
 
 	init_lem_in(&data);
-	data.amount = validate_ants(&data);
+	validate_ants(&data);
 	while (get_next_line(0, &line))
 	{
 		if (create_rooms(&data, line) == 0)
@@ -60,41 +81,42 @@ int		main(void)
 	bfs(&data);
 	find_paths(&data);
 	choose_combos(&data);
+	print_solution(&data);
 
-
+	while (1);
 //	PRINT AMOUNT OF STEPS IN EVERY PATH
-	int	i;
-	int	j;
-	int	k;
+	// int	i;
+	// int	j;
+	// int	k;
 
-	k = 0;
-	i = 0;
-	j = 0;
-	while (i < PATH_NUMS && data.complete[i] != NULL)
-	{
-		j = 0;
-		if (data.complete[i][0] != NULL)
-		{
-			while (j < PATH_LEN && data.complete[i][j] != NULL)
-				j++;
-			// ft_putnbr(j - 1);
-			// ft_putendl("");
-			k++;
-		}
-		else if (i < 500)
-		{
-			ft_putnbr(i);
-			ft_putendl("");
-		}
+	// k = 0;
+	// i = 0;
+	// j = 0;
+	// while (i < PATH_NUMS && data.complete[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	if (data.complete[i][0] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.complete[i][j] != NULL)
+	// 			j++;
+	// 		// ft_putnbr(j - 1);
+	// 		// ft_putendl("");
+	// 		k++;
+	// 	}
+	// 	else if (i < 500)
+	// 	{
+	// 		ft_putnbr(i);
+	// 		ft_putendl("");
+	// 	}
 		
-		i++;
-	}
-	ft_printf("%i paths\n", k);
+	// 	i++;
+	// }
+	// ft_printf("%i paths\n", k);
 
 //	PRINT SOLUTION AMOUNT OF STEPS
 
-	ft_putnbr(data.solution_steps);
-	ft_putendl(" steps to solve");
+	// ft_putnbr(data.solution_steps);
+	// ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
 	// int i;
