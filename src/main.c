@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/02 22:47:37 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 15:41:45 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigsuper5", 0, O_RDONLY);
+	open("./bigmap2", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	data.amount = validate_ants(&data);
@@ -70,23 +70,22 @@ int		main(void)
 	k = 0;
 	i = 0;
 	j = 0;
-	while (i < PATH_NUMS && data.complete[i] != NULL)
+	while (i < PATH_NUMS && data.paths[i] != NULL)
 	{
 		j = 0;
-		if (data.complete[i][0] != NULL)
+		if (data.paths[i][0] != NULL)
 		{
-			while (j < PATH_LEN && data.complete[i][j] != NULL)
+			while (j < PATH_LEN && data.paths[i][j] != NULL)
 				j++;
-			// ft_putnbr(j - 1);
-			// ft_putendl("");
+			ft_putnbr(j - 1);
+			ft_putendl("");
 			k++;
 		}
-		else if (i < 500)
-		{
-			ft_putnbr(i);
-			ft_putendl("");
-		}
-		
+		// else if (i < 500)
+		// {
+		// 	ft_putnbr(i);
+		// 	ft_putendl("");
+		// }
 		i++;
 	}
 	ft_printf("%i paths\n", k);
@@ -97,9 +96,6 @@ int		main(void)
 	ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
-	// int i;
-	// int j;
-
 	// i = 0;
 	// while (i < PATH_NUMS && data.solution[i] != NULL)
 	// {

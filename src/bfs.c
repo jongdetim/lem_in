@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/21 12:34:38 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/28 17:27:30 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/09/04 15:38:51 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void		enqueue(t_hash_graph *node, t_lem_in *data)
 
 void			level_graph(t_hash_graph *node, t_neighbours *nb)
 {
-	if (nb->node->level == 0 || nb->node->level > node->level + 1)
+	if (nb->node->type != 2 &&
+	(nb->node->level == 0 || nb->node->level > node->level + 1))
 		nb->node->level = node->level + 1;
 }
 

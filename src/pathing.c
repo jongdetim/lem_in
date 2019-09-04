@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/02 23:12:43 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 15:39:58 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 
 	i = 0;
 	j = 0;
+	nb->node->visited++;
 	if (n == 0 && j < PATH_LEN)
 	{
 		while (queue->path[i] != NULL)
@@ -139,7 +140,7 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 				break ;
 			j++;
 		}
-		if (j == i)
+		if (j == i && nb->node->visited != 2 && nb->node->level <= queue->path[j]->level)
 		{
 			extend_path(data, queue, nb, n);
 			n++;

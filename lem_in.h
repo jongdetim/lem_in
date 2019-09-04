@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/02 23:12:02 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 14:26:22 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 
 # define PATH_NUMS 10000
-# define PATH_LEN 76
+# define PATH_LEN 100
 
 typedef struct		s_str_lst
 {
