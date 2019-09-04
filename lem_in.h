@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 14:26:22 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 17:23:57 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct		s_hash_graph
 	int					type;
 	int					visited;
 	int					level;
+	int					empty;
 	t_neighbours		*neighbours;
 	struct s_hash_graph	*coll;
 }					t_hash_graph;
@@ -64,6 +65,16 @@ typedef struct		s_combos
 	struct s_combos		*next;
 }					t_combos;
 
+typedef struct			s_print_list
+{
+    struct s_print_list	*next;
+    int					ant;
+	char				*room;
+	int					finished;
+	long				nnb;
+	long				pnb;
+}						t_print_list;
+
 typedef struct		s_lem_in
 {
 	int				amount;
@@ -75,6 +86,7 @@ typedef struct		s_lem_in
 	int				collisions;
 	int				path_num;
 	int				combo_max;
+	long			path_amount;
 	t_path_queue	*end_of_queue;
 	t_bfs_queue		*end_of_bfs_queue;
 	t_str_lst		*input;
@@ -88,6 +100,11 @@ typedef struct		s_lem_in
 	t_hash_graph	***solution;
 	int				solution_steps;
 }					t_lem_in;
+
+void        print_solution(t_lem_in *data);
+void		print_init(t_lem_in *data, t_print_list *ptr);
+void		print_lst_rev(t_str_lst *curr);
+void		print_ants(t_lem_in *data, t_print_list *ptr_start);
 
 /*
 ** main.c
@@ -107,7 +124,7 @@ int			ft_validate_format(char *format, char *str);
 int			create_rooms(t_lem_in *data, char *line);
 void		check_room(char *str, t_lem_in *data);
 char		*check_comment(char *str, t_lem_in *data);
-int			validate_ants(t_lem_in *data);
+void		validate_ants(t_lem_in *data);
 
 /*
 ** trim_graph.c

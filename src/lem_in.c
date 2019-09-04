@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/02 20:23:22 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 14:09:02 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ int			ft_hash_str(char *key, int size)
 	}
 	index = ft_abs(index);
 	return (index % size);
-}
-
-void	print_lst_rev(t_str_lst *current)
-{
-	if (current == NULL)
-		return;
-	else
-		print_lst_rev(current->next);
-	ft_putendl(current->content);
 }
 
 int		check_edge(char *line)
@@ -231,6 +222,7 @@ void	get_edge(char *line, t_lem_in *data)
 	char			*key2;
 
 	i = 0;
+	add_list(line, data);
 	while (line[i] != '-')
 		i++;
 	key1 = ft_strsub(line, 0, i);

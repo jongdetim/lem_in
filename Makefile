@@ -6,7 +6,7 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/08/28 18:46:44 by tide-jon      ########   odam.nl          #
+#    Updated: 2019/09/04 14:01:00 by awehlbur      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIB =			libft
 LIB.A =			libft.a
 
 LI_SRC_NAME =	input_check.c lem_in.c main.c validate_format.c trim_graph.c \
-				bfs.c pathing.c combos.c
+				bfs.c pathing.c combos.c print_solution.c
 
 LI_OBJ_NAME =	$(LI_SRC_NAME:.c=.o)
 

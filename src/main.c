@@ -6,19 +6,40 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 15:41:45 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/04 17:26:01 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-// nog te fixen:
-// comments tussen ##start en room_start of ##end en room_end
-
 void	ft_error(char str[100])
 {
 	ft_printf("%s\n", str);
 	exit (0);
+}
+
+void		free_stuff(t_print_list *ptr)
+{
+	t_print_list	*temp;
+
+	temp = ptr; 
+	while (temp != NULL)
+	{
+		ptr = ptr->next;
+		free(temp);
+		temp = ptr;
+	}
+}
+
+void        print_solution(t_lem_in *data)
+{
+    t_print_list	*ptr;
+
+	ptr = (t_print_list*)malloc(sizeof(t_print_list));
+	print_lst_rev(data->input);
+	print_init(data, ptr);
+	print_ants(data, ptr);
+	free_stuff(ptr);
 }
 
 int		read_edge(char *line, t_lem_in *data)
@@ -44,7 +65,7 @@ int		main(void)
 	open("./bigmap2", 0, O_RDONLY);
 
 	init_lem_in(&data);
-	data.amount = validate_ants(&data);
+	validate_ants(&data);
 	while (get_next_line(0, &line))
 	{
 		if (create_rooms(&data, line) == 0)
@@ -60,7 +81,7 @@ int		main(void)
 	bfs(&data);
 	find_paths(&data);
 	choose_combos(&data);
-
+	// print_solution(&data);
 
 //	PRINT AMOUNT OF STEPS IN EVERY PATH
 	int	i;
