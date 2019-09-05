@@ -62,7 +62,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./bigmap2", 0, O_RDONLY);
+	open("./big_1756", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -97,16 +97,15 @@ int		main(void)
 		if (data.paths[i][0] != NULL)
 		{
 			while (j < PATH_LEN && data.paths[i][j] != NULL)
+			{
+				// ft_putendl(data.complete[i][j]->key);
 				j++;
+			}
 			ft_putnbr(j - 1);
+			ft_putendl("");
 			ft_putendl("");
 			k++;
 		}
-		// else if (i < 500)
-		// {
-		// 	ft_putnbr(i);
-		// 	ft_putendl("");
-		// }
 		i++;
 	}
 	ft_printf("%i paths\n", k);
@@ -117,21 +116,21 @@ int		main(void)
 	ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
-	// i = 0;
-	// while (i < PATH_NUMS && data.solution[i] != NULL)
-	// {
-	// 	j = 0;
-	// 	if (data.solution[i][j] != NULL)
-	// 	{
-	// 		while (j < PATH_LEN && data.solution[i][j] != NULL)
-	// 		{
-	// 			ft_putendl(data.solution[i][j]->key);
-	// 			j++;
-	// 		}
-	// 		ft_putendl("");
-	// 	}
-	// 	i++;
-	// }
+	i = 0;
+	while (i < PATH_NUMS && data.solution[i] != NULL)
+	{
+		j = 0;
+		if (data.solution[i][j] != NULL)
+		{
+			while (j < PATH_LEN && data.solution[i][j] != NULL)
+			{
+				ft_putendl(data.solution[i][j]->key);
+				j++;
+			}
+			ft_putendl("");
+		}
+		i++;
+	}
 
 
 //	PRINT PATHS
@@ -155,7 +154,6 @@ int		main(void)
 	// }
 
 //	PRINT COMPLETE PATHS
-	// int i;
 	// i = 0;
 	// while (data.complete[i] != NULL)
 	// 	i++;

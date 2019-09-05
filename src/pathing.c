@@ -35,6 +35,7 @@ static void	enqueue_path(t_hash_graph **path, t_lem_in *data)
 static void	allocate_paths(t_lem_in *data)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	data->paths = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
@@ -43,6 +44,12 @@ static void	allocate_paths(t_lem_in *data)
 	{
 		data->paths[i] = (t_hash_graph**)ft_memalloc(sizeof(t_hash_graph*)
 															* (PATH_LEN + 1));
+		j = 0;
+		while (j <= PATH_LEN)
+		{ 
+			data->paths[i][j] = NULL;
+			j++;
+		}
 		i++;
 	}
 	data->complete = (t_hash_graph***)ft_memalloc(sizeof(t_hash_graph**)
@@ -73,8 +80,9 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 
 	i = 0;
 	j = 0;
-	nb->node->visited++;
-	if (n == 0 && j < PATH_LEN)
+	if (nb->node->type != 2)
+		nb->node->visited++;
+	if (n == 0)
 	{
 		while (queue->path[i] != NULL)
 		{
@@ -85,7 +93,7 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 		queue->path[i] = nb->node;
 		check_finish(queue->path, nb, data);
 	}
-	else if (i < PATH_NUMS && j < PATH_LEN)
+	else
 	{
 		while (data->paths[i][0] != NULL)
 		{
@@ -120,10 +128,12 @@ static void	delete_path(t_hash_graph **path)
 static void	deal_step(t_lem_in *data, t_path_queue *queue,
 											t_neighbours *nb, int n)
 {
-	int	i;
-	int	j;
+	int				i;
+	t_neighbours	*save;
+	int				lowest;
 
 	i = 0;
+	lowest = INT_MAX;
 	while (queue->path[i + 1] != NULL)
 	{
 		i++;
@@ -133,22 +143,23 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	nb = queue->path[i]->neighbours;
 	while (nb != NULL)
 	{
-		j = 0;
-		while (j < i)
+		if (nb->node->type != 1 && nb->node->visited != 2) 
 		{
-			if (queue->path[j] == nb->node)
-				break ;
-			j++;
-		}
-		if (j == i && nb->node->visited != 2 && nb->node->level <= queue->path[j]->level)
-		{
-			extend_path(data, queue, nb, n);
+			if (nb->node->level < lowest)
+			{
+				lowest = nb->node->level;
+				save = nb;
+			}
 			n++;
 		}
+		if (i == 0 && n >= 0)
+			extend_path(data, queue, nb, n);
 		nb = nb->neighbours;
 	}
-	if (n == 0)
+	if (n == -1)
 		delete_path(queue->path);
+	else if (i >= 1)
+		extend_path(data, queue, save, 0);
 }
 
 void		find_paths(t_lem_in *data)
@@ -158,7 +169,7 @@ void		find_paths(t_lem_in *data)
 	int				n;
 
 	nb = NULL;
-	n = 0;
+	n = -1;
 	allocate_paths(data);
 	data->paths[0][0] = data->start;
 	queue = (t_path_queue*)malloc(sizeof(t_path_queue));
