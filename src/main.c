@@ -62,7 +62,7 @@ int		main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("./big_1756", 0, O_RDONLY);
+	open("./bigsuper2", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	validate_ants(&data);

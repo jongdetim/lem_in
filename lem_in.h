@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 
 # define PATH_NUMS 10000
-# define PATH_LEN 100
+# define PATH_LEN 90
 
 typedef struct		s_str_lst
 {

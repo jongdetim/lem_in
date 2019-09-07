@@ -129,8 +129,11 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 											t_neighbours *nb, int n)
 {
 	int				i;
+	int				j;
 	t_neighbours	*save;
 	int				lowest;
+	int				max;
+	t_neighbours	*mem[5];
 
 	i = 0;
 	lowest = INT_MAX;
@@ -143,7 +146,14 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	nb = queue->path[i]->neighbours;
 	while (nb != NULL)
 	{
-		if (nb->node->type != 1 && nb->node->visited != 2) 
+		j = 0;
+		while (j < i)
+		{
+			if (queue->path[j] == nb->node)
+				break ;
+			j++;
+		}
+		if (j == i && nb->node->type != 1 && nb->node->visited != 30) 
 		{
 			if (nb->node->level < lowest)
 			{
@@ -156,11 +166,66 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 			extend_path(data, queue, nb, n);
 		nb = nb->neighbours;
 	}
-	if (n == -1)
-		delete_path(queue->path);
-	else if (i >= 1)
+	if (i > 0 && n >= 0)
+	{
 		extend_path(data, queue, save, 0);
+		max = 0;
+		while (max < 3 && n > 0)
+		{
+			mem[max] = save;
+			nb = queue->path[i]->neighbours;
+			lowest = INT_MAX;
+			while (nb != NULL)
+			{
+				j = 0;
+				while (j < i)
+				{
+					if (queue->path[j] == nb->node)
+						break ;
+					j++;
+				}
+				if (max == 0 && j == i && nb->node->type != 1 && nb != mem[0] &&
+				nb->node->level < lowest && nb->node->visited != 30)
+				{
+					lowest = nb->node->level;
+					save = nb;
+				}
+				else if (max == 1 && j == i && nb->node->type != 1 &&
+				nb != mem[0] && nb != mem[1] && nb->node->level < lowest && nb->node->visited != 30)
+				{
+					lowest = nb->node->level;
+					save = nb;
+				}
+				else if (max == 2 && j == i && nb->node->type != 1 &&
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb->node->level < lowest && nb->node->visited != 30)
+				{
+					lowest = nb->node->level;
+					save = nb;
+				}
+				else if (max == 3 && j == i && nb->node->type != 1 &&
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb->node->level < lowest && nb->node->visited != 30)
+				{
+					lowest = nb->node->level;
+					save = nb;
+				}
+				else if (max == 4 && j == i && nb->node->type != 1 &&
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb != mem[4] && nb->node->level < lowest && nb->node->visited != 30)
+				{
+					lowest = nb->node->level;
+					save = nb;
+				}
+				nb = nb->neighbours;
+			}
+			extend_path(data, queue, save, n);
+			max++;
+			n--;
+		}
+	}
+	else if (n == -1)
+		delete_path(queue->path);
 }
+
+
 
 void		find_paths(t_lem_in *data)
 {
