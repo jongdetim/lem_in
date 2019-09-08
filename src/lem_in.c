@@ -244,6 +244,7 @@ void	init_lem_in(t_lem_in *data)
 	data->combo_lst = NULL;
 	data->path_num = 0;
 	data->solution = NULL;
+	data->input = NULL;
 }
 
 void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)

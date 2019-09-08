@@ -17,7 +17,7 @@ LIB =			libft
 LIB.A =			libft.a
 
 LI_SRC_NAME =	input_check.c lem_in.c main.c validate_format.c trim_graph.c \
-				bfs.c pathing.c combos.c print_solution.c
+				bfs.c pathing.c combos.c print.c
 
 LI_OBJ_NAME =	$(LI_SRC_NAME:.c=.o)
 

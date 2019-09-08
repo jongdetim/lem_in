@@ -18,30 +18,6 @@ void	ft_error(char str[100])
 	exit (0);
 }
 
-void		free_stuff(t_print_list *ptr)
-{
-	t_print_list	*temp;
-
-	temp = ptr; 
-	while (temp != NULL)
-	{
-		ptr = ptr->next;
-		free(temp);
-		temp = ptr;
-	}
-}
-
-void        print_solution(t_lem_in *data)
-{
-    t_print_list	*ptr;
-
-	ptr = (t_print_list*)malloc(sizeof(t_print_list));
-	print_lst_rev(data->input);
-	print_init(data, ptr);
-	print_ants(data, ptr);
-	free_stuff(ptr);
-}
-
 int		read_edge(char *line, t_lem_in *data)
 {
 	if (line && line[0] == '#')
@@ -81,34 +57,34 @@ int		main(void)
 	bfs(&data);
 	find_paths(&data);
 	choose_combos(&data);
-	// print_solution(&data);
+	print_solution(&data);
 
 //	PRINT AMOUNT OF STEPS IN EVERY PATH
-	int	i;
-	int	j;
-	int	k;
+	// int	i;
+	// int	j;
+	// int	k;
 
-	k = 0;
-	i = 0;
-	j = 0;
-	while (i < PATH_NUMS && data.paths[i] != NULL)
-	{
-		j = 0;
-		if (data.paths[i][0] != NULL)
-		{
-			while (j < PATH_LEN && data.paths[i][j] != NULL)
-			{
-				// ft_putendl(data.complete[i][j]->key);
-				j++;
-			}
-			ft_putnbr(j - 1);
-			ft_putendl("");
-			ft_putendl("");
-			k++;
-		}
-		i++;
-	}
-	ft_printf("%i paths\n", k);
+	// k = 0;
+	// i = 0;
+	// j = 0;
+	// while (i < PATH_NUMS && data.paths[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	if (data.paths[i][0] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.paths[i][j] != NULL)
+	// 		{
+	// 			// ft_putendl(data.complete[i][j]->key);
+	// 			j++;
+	// 		}
+	// 		ft_putnbr(j - 1);
+	// 		ft_putendl("");
+	// 		ft_putendl("");
+	// 		k++;
+	// 	}
+	// 	i++;
+	// }
+	// ft_printf("%i paths\n", k);
 
 //	PRINT SOLUTION AMOUNT OF STEPS
 
@@ -116,21 +92,21 @@ int		main(void)
 	ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
-	i = 0;
-	while (i < PATH_NUMS && data.solution[i] != NULL)
-	{
-		j = 0;
-		if (data.solution[i][j] != NULL)
-		{
-			while (j < PATH_LEN && data.solution[i][j] != NULL)
-			{
-				ft_putendl(data.solution[i][j]->key);
-				j++;
-			}
-			ft_putendl("");
-		}
-		i++;
-	}
+	// i = 0;
+	// while (i < PATH_NUMS && data.solution[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	if (data.solution[i][j] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.solution[i][j] != NULL)
+	// 		{
+	// 			ft_putendl(data.solution[i][j]->key);
+	// 			j++;
+	// 		}
+	// 		ft_putendl("");
+	// 	}
+	// 	i++;
+	// }
 
 
 //	PRINT PATHS
