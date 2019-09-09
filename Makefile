@@ -6,52 +6,42 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/09/04 14:01:00 by awehlbur      ########   odam.nl          #
+#    Updated: 2019/09/09 18:48:33 by tide-jon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-INCLUDES =		-Ilibft/Includes -I.
+NAME =		lem-in
 
-LIB =			libft
+LIBFT =		libft/libft.a
 
-LIB.A =			libft.a
+FILES =		main.c input_check.c lem_in.c validate_format.c \
+			bfs.c pathing.c combos.c print.c trim_graph.c
 
-LI_SRC_NAME =	input_check.c lem_in.c main.c validate_format.c trim_graph.c \
-				bfs.c pathing.c combos.c print.c
+SRCS =		$(FILES:%=src/%)
 
-LI_OBJ_NAME =	$(LI_SRC_NAME:.c=.o)
+OBJECTS =	$(SRCS:src/%.c=obj/%.o)
 
-SRC_PATH =		src
+FLAGS =		-Wall -Wextra -Werror
 
-OBJ_PATH =		obj
+all : $(NAME)
 
-LI_SRC =		$(addprefix $(SRC_PATH)/, $(LI_SRC_NAME))
+$(NAME) : $(OBJECTS) $(LIBFT)
+			 gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
+			 echo "lem-in executable compiled"
 
-LI_OBJ =		$(addprefix $(OBJ_PATH)/, $(LI_OBJ_NAME))
+$(LIBFT):
+	 		 make -C ./libft/
 
-NAME_C =		lem_in
-
-FLAGS =			-Wall -Wextra -Werror
-
-all : 			library $(NAME_C)
-
-library :
-				make -C $(LIB)
-
-$(NAME_C) : $(LI_OBJ)
-				gcc -g -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
-
-$(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
-				@mkdir -p $(OBJ_PATH)
-				@mkdir -p $(dir $(LI_OBJ))
-				gcc -g -o $@ -c $< $(INCLUDES) $(FLAGS)
+obj/%.o : src/%.c lem_in.h
+			 gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
 
 clean :
-				rm -fr $(OBJ_PATH)
-				make clean -C $(LIB)
+			@ make clean -C ./libft/ && rm -f $(OBJ_PATH)
 
-fclean : clean
-				rm -f $(NAME_C)
-				make fclean -C $(LIB)
+fclean :
+			@ make fclean -C ./libft/ && rm -f $(NAME) && \
+			rm -f $(OBJECTS)
 
 re : fclean all
+
+.PHONY: clean fclean all re

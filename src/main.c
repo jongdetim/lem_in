@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 17:26:01 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/09 14:53:36 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int		main(void)
 	char		*line;
 	t_lem_in	data;
 
-	close(0);
-	open("./bigsuper2", 0, O_RDONLY);
+	// close(0);
+	// open("./bigmap2", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -88,8 +88,8 @@ int		main(void)
 
 //	PRINT SOLUTION AMOUNT OF STEPS
 
-	ft_putnbr(data.solution_steps);
-	ft_putendl(" steps to solve");
+	// ft_putnbr(data.solution_steps);
+	// ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
 	// i = 0;
