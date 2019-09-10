@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/09 15:41:59 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/10 19:31:20 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,8 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 				nb = nb->neighbours;
 			}
 			extend_path(data, queue, save, n);
+			if (save->node->type == 2)
+				return ;
 			max++;
 			n--;
 		}

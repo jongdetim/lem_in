@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/28 15:27:09 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/04 16:07:22 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/09/10 20:08:44 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,26 @@ static int	check_overlap(int j, t_lem_in *data, int *arr)
 	int l;
 	int m;
 
-	k = 0;
-	while (data->complete[arr[k]] != NULL && arr[k] != j)
+	m = 1;
+	while (data->complete[j][m + 1] != NULL && m < PATH_LEN - 1)
 	{
-		l = 1;
-		while (data->complete[arr[k]][l + 1] != NULL && l < PATH_LEN - 1)
+		k = 0;
+		if (data->complete[j][m]->conn > 2)
 		{
-			m = 1;
-			while (data->complete[j][m + 1] != NULL && m < PATH_LEN - 1)
+			while (data->complete[arr[k]] != NULL && arr[k] != j)
 			{
-				if (data->complete[arr[k]][l] == data->complete[j][m])
-					return (0);
-				m++;
+				l = 1;
+				while (data->complete[arr[k]][l + 1] != NULL && l < PATH_LEN - 1)
+				{
+					if (data->complete[arr[k]][l]->conn > 2 &&
+					data->complete[arr[k]][l] == data->complete[j][m])
+						return (0);
+					l++;
+				}
+				k++;
 			}
-			l++;
 		}
-		k++;
+		m++;
 	}
 	return (1);
 }

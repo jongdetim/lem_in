@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/09 18:40:39 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/10 18:57:51 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct		s_hash_graph
 	int					type;
 	int					visited;
 	int					level;
-	int					empty;
+	int					conn;
 	t_neighbours		*neighbours;
 	struct s_hash_graph	*coll;
 }					t_hash_graph;

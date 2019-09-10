@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/20 19:56:04 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/26 16:53:47 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/10 18:54:27 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	trim_graph(t_hash_graph *node)
 	{
 		temp = node;
 		node = node->neighbours->node;
+		node->conn--;
 	}
 	nb = node->neighbours;
 	if (temp != NULL && nb->node == temp)

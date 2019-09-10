@@ -6,7 +6,7 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/09/09 18:48:33 by tide-jon      ########   odam.nl          #
+#    Updated: 2019/09/10 20:03:06 by tide-jon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,19 +21,19 @@ SRCS =		$(FILES:%=src/%)
 
 OBJECTS =	$(SRCS:src/%.c=obj/%.o)
 
-FLAGS =		-Wall -Wextra -Werror
+FLAGS =		-g -Wall -Wextra -Werror
 
 all : $(NAME)
 
 $(NAME) : $(OBJECTS) $(LIBFT)
-			 gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
-			 echo "lem-in executable compiled"
+			@ gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
+			@ echo "lem-in executable compiled"
 
 $(LIBFT):
-	 		 make -C ./libft/
+	 		@ make -C ./libft/
 
 obj/%.o : src/%.c lem_in.h
-			 gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
+			@ gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
 
 clean :
 			@ make clean -C ./libft/ && rm -f $(OBJ_PATH)

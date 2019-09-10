@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/21 12:34:38 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 15:38:51 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/10 20:02:16 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void			bfs(t_lem_in *data)
 	t_bfs_queue		*queue;
 	t_hash_graph	*node;
 	t_neighbours	*neighbours;
+	int				nb_amount;
 
 	queue = (t_bfs_queue*)malloc(sizeof(t_bfs_queue));
 	queue->next = NULL;
@@ -57,14 +58,17 @@ void			bfs(t_lem_in *data)
 	data->end_of_bfs_queue = queue;
 	while (queue != NULL)
 	{
+		nb_amount = 0;
 		node = queue->node;
 		neighbours = node->neighbours;
 		while (neighbours != NULL)
 		{
+			nb_amount++;
 			level_graph(node, neighbours);
 			enqueue(neighbours->node, data);
 			neighbours = neighbours->neighbours;
 		}
+		node->conn = nb_amount;
 		pop_queue(&queue);
 		if (node->type == 0)
 			trim_graph(node);
