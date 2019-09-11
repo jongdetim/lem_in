@@ -5,44 +5,34 @@
 /*                                                     +:+                    */
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 17:26:01 by tide-jon      ########   odam.nl         */
+/*   Created: 2019/09/11 13:38:22 by awehlbur       #+#    #+#                */
+/*   Updated: 2019/09/11 13:57:28 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-void	ft_error(char str[100])
+void			ft_error(char str[100])
 {
 	ft_printf("%s\n", str);
-	exit (0);
+	exit(0);
 }
 
-void		free_stuff(t_print_list *ptr)
+static void		init_lem_in(t_lem_in *data)
 {
-	t_print_list	*temp;
-
-	temp = ptr; 
-	while (temp != NULL)
-	{
-		ptr = ptr->next;
-		free(temp);
-		temp = ptr;
-	}
+	data->nodes = 0;
+	data->edges = 0;
+	data->set_end = 0;
+	data->set_start = 0;
+	data->node_lst = NULL;
+	data->combo_max = 0;
+	data->combo_lst = NULL;
+	data->path_num = 0;
+	data->solution = NULL;
+	data->input = NULL;
 }
 
-void        print_solution(t_lem_in *data)
-{
-    t_print_list	*ptr;
-
-	ptr = (t_print_list*)malloc(sizeof(t_print_list));
-	print_lst_rev(data->input);
-	print_init(data, ptr);
-	print_ants(data, ptr);
-	free_stuff(ptr);
-}
-
-int		read_edge(char *line, t_lem_in *data)
+int				read_edge(char *line, t_lem_in *data)
 {
 	if (line && line[0] == '#')
 		line = check_comment(line, data);
@@ -56,13 +46,10 @@ int		read_edge(char *line, t_lem_in *data)
 	return (1);
 }
 
-int		main(void)
+int				main(void)
 {
 	char		*line;
 	t_lem_in	data;
-
-	close(0);
-	open("./bigmap2", 0, O_RDONLY);
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -75,152 +62,14 @@ int		main(void)
 	read_edge(line, &data);
 	while (get_next_line(0, &line))
 	{
+		if (line[0] == '#')
+			line = check_comment(line, &data);
 		if (read_edge(line, &data) == 0)
 			break ;
 	}
 	bfs(&data);
 	find_paths(&data);
 	choose_combos(&data);
-	// print_solution(&data);
-
-//	PRINT AMOUNT OF STEPS IN EVERY PATH
-	int	i;
-	int	j;
-	int	k;
-
-	k = 0;
-	i = 0;
-	j = 0;
-	while (i < PATH_NUMS && data.paths[i] != NULL)
-	{
-		j = 0;
-		if (data.paths[i][0] != NULL)
-		{
-			while (j < PATH_LEN && data.paths[i][j] != NULL)
-				j++;
-			ft_putnbr(j - 1);
-			ft_putendl("");
-			k++;
-		}
-		// else if (i < 500)
-		// {
-		// 	ft_putnbr(i);
-		// 	ft_putendl("");
-		// }
-		i++;
-	}
-	ft_printf("%i paths\n", k);
-
-//	PRINT SOLUTION AMOUNT OF STEPS
-
-	ft_putnbr(data.solution_steps);
-	ft_putendl(" steps to solve");
-
-//	PRINT SOLUTION COMBO
-	// i = 0;
-	// while (i < PATH_NUMS && data.solution[i] != NULL)
-	// {
-	// 	j = 0;
-	// 	if (data.solution[i][j] != NULL)
-	// 	{
-	// 		while (j < PATH_LEN && data.solution[i][j] != NULL)
-	// 		{
-	// 			ft_putendl(data.solution[i][j]->key);
-	// 			j++;
-	// 		}
-	// 		ft_putendl("");
-	// 	}
-	// 	i++;
-	// }
-
-
-//	PRINT PATHS
-	// int i;
-	// int j;
-
-	// i = 0;
-	// while (i < PATH_NUMS)
-	// {
-	// 	j = 0;
-	// 	if (data.paths[i][j] != NULL)
-	// 	{
-	// 		while (j < PATH_LEN && data.paths[i][j] != NULL)
-	// 		{
-	// 			ft_putendl(data.paths[i][j]->key);
-	// 			j++;
-	// 		}
-	// 		ft_putendl("");
-	// 	}
-	// 	i++;
-	// }
-
-//	PRINT COMPLETE PATHS
-	// int i;
-	// i = 0;
-	// while (data.complete[i] != NULL)
-	// 	i++;
-	// ft_printf("%i complete paths found", i);
-
-//	PRINT ALL POSSIBLE COMBINATIONS (INCLUDING OVERLAPPING)
-	// int	i;
-	// i = 0;
-	// while (data.combo_lst != NULL)
-	// {
-	// 	i++;
-	// 	data.combo_lst = data.combo_lst->next;
-	// }
-	// ft_putnbr(i);
-
-	// ft_putendl("TO DO: combinaties checken op overlap. indien geen overlap: formule gebruiken en (laagste) waarde opslaan");
-
-// t_hash_graph *test;
-// t_neighbours *room;
-
-// test = &data.graph[ft_hash_str("start", data.hashsize)];
-// room = test->neighbours;
-// while (room != NULL)
-// {
-// 	ft_putendl(room->node->key);
-// 	room = room->neighbours;
-// }
-// ft_putendl("");
-// test = &data.graph[ft_hash_str("4", data.hashsize)];
-// room = test->neighbours;
-// while (room != NULL)
-// {
-// 	ft_putendl(room->node->key);
-// 	room = room->neighbours;
-// }
-// ft_putendl("");
-// test = &data.graph[ft_hash_str("end", data.hashsize)];
-// room = test->neighbours;
-// while (room != NULL)
-// {
-// 	ft_putendl(room->node->key);
-// 	room = room->neighbours;
-// }
-
-// 	int *nums;
-
-// 	nums = (int*)ft_memalloc(sizeof(int) * data.hashsize);
-// 	ft_memset(nums, 0, data.hashsize);
-// 	while (data.node_lst != NULL)
-// 	{
-// 		ft_putnbr(ft_hash_str(data.node_lst->name, data.hashsize));
-// 		write(1, "\n", 1);
-// 		nums[ft_hash_str(data.node_lst->name, data.hashsize)]++;
-// 		data.node_lst = data.node_lst->next;
-// 	}
-
-// 	int x = 0;
-
-// 	while (x < data.hashsize)
-// 	{
-// 		ft_putnbr(nums[x]);
-// 		write(1, "\n", 1);
-// 		x++;
-// 	}
-
-// 	ft_printf("%f%% of collisions", ((float)data.collisions / (float)data.nodes) * 100);
+	print_solution(&data);
 	return (0);
 }

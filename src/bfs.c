@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   bfs.c                                              :+:    :+:            */
+/*   bfs2.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/08/21 12:34:38 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 15:38:51 by tide-jon      ########   odam.nl         */
+/*   Created: 2019/09/11 13:41:16 by awehlbur       #+#    #+#                */
+/*   Updated: 2019/09/11 13:41:55 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-static void		pop_queue(t_bfs_queue **queue)
+static void			pop_queue(t_bfs_queue **queue)
 {
 	t_bfs_queue	*temp;
 
@@ -21,7 +21,7 @@ static void		pop_queue(t_bfs_queue **queue)
 	*queue = temp;
 }
 
-static void		enqueue(t_hash_graph *node, t_lem_in *data)
+static void			enqueue(t_hash_graph *node, t_lem_in *data)
 {
 	t_bfs_queue *current;
 
@@ -36,14 +36,14 @@ static void		enqueue(t_hash_graph *node, t_lem_in *data)
 	}
 }
 
-void			level_graph(t_hash_graph *node, t_neighbours *nb)
+static void			level_graph(t_hash_graph *node, t_neighbours *nb)
 {
 	if (nb->node->type != 2 &&
 	(nb->node->level == 0 || nb->node->level > node->level + 1))
 		nb->node->level = node->level + 1;
 }
 
-void			bfs(t_lem_in *data)
+void				bfs(t_lem_in *data)
 {
 	t_bfs_queue		*queue;
 	t_hash_graph	*node;
@@ -53,7 +53,7 @@ void			bfs(t_lem_in *data)
 	queue->next = NULL;
 	node = data->end;
 	node->visited = 1;
-	queue->node = node;	
+	queue->node = node;
 	data->end_of_bfs_queue = queue;
 	while (queue != NULL)
 	{

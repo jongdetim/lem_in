@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 17:23:57 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/09 18:40:39 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 
 # define PATH_NUMS 10000
-# define PATH_LEN 100
+# define PATH_LEN 80
 
 typedef struct		s_str_lst
 {
@@ -65,15 +65,12 @@ typedef struct		s_combos
 	struct s_combos		*next;
 }					t_combos;
 
-typedef struct			s_print_list
+typedef struct			s_ant
 {
-    struct s_print_list	*next;
+    struct s_ant		*next;
     int					ant;
-	char				*room;
-	int					finished;
-	long				nnb;
-	long				pnb;
-}						t_print_list;
+	t_hash_graph		**room;
+}						t_ant;
 
 typedef struct		s_lem_in
 {
@@ -83,7 +80,6 @@ typedef struct		s_lem_in
 	int				nodes;
 	int				edges;
 	int				hashsize;
-	int				collisions;
 	int				path_num;
 	int				combo_max;
 	long			path_amount;
@@ -101,72 +97,79 @@ typedef struct		s_lem_in
 	int				solution_steps;
 }					t_lem_in;
 
-void        print_solution(t_lem_in *data);
-void		print_init(t_lem_in *data, t_print_list *ptr);
-void		print_lst_rev(t_str_lst *curr);
-void		print_ants(t_lem_in *data, t_print_list *ptr_start);
-
 /*
-** main.c
- */
-int			main(void);
-void		ft_error(char str[100]);
-int			read_edge(char *line, t_lem_in *data);
-
-/*
-** validate_format.c
- */
-int			ft_validate_format(char *format, char *str);
-
-/*
-** input_check.c
- */
-int			create_rooms(t_lem_in *data, char *line);
-void		check_room(char *str, t_lem_in *data);
-char		*check_comment(char *str, t_lem_in *data);
-void		validate_ants(t_lem_in *data);
-
-/*
-** trim_graph.c
- */
-void	trim_graph(t_hash_graph *node);
-
-/*
-** lem_in.c
- */
-void	build_graph(t_lem_in *data);
-void	check_parsing(t_lem_in *data);
-void	init_lem_in(t_lem_in *data);
-void	get_edge(char *line, t_lem_in *data);
-void	get_node(char *line, t_lem_in *data);
-void	set_startend(t_lem_in_lst *node, t_lem_in *data);
-char	*ft_getword(char *str);
-void	deal_hash(char *line, t_lem_in *data);
-void	add_list(char *line, t_lem_in *data);
-int		check_node(char *line);
-int		check_edge(char *line);
-void	print_lst_rev(t_str_lst *current);
-int			ft_hash_str(char *key, int size);
-int			get_next_prime(int n);
-int			ft_isprime(int n);
-void	get_edge(char *line, t_lem_in *data);
-void	connect_nodes(char *key1, char *key2, t_lem_in *data);
-void	add_neighbour(t_hash_graph *node1, t_hash_graph *node2);
-t_hash_graph	*find_node(t_lem_in *data, char *key);
-
-/*
-** bfs.c
- */
-void	bfs(t_lem_in *data);
-
-/*
-** pathing.c
+**	main.c
 */
-void		find_paths(t_lem_in *data);
+int				main(void);
+void			ft_error(char str[100]);
+int				read_edge(char *line, t_lem_in *data);
 
 /*
-** combos.c
+**	input_check.c
 */
-void		choose_combos(t_lem_in *data);
+int				create_rooms(t_lem_in *data, char *line);
+char			*check_comment(char *str, t_lem_in *data);
+void			validate_ants(t_lem_in *data);
+
+/*
+**	bfs.c
+*/
+void			bfs(t_lem_in *data);
+
+/*
+**	combos2.c + combos.c
+*/
+float			calculate_steps(t_lem_in *data, int *arr);
+void			get_combo_max(t_lem_in *data);
+int				check_improvement(int j, t_lem_in *data, int *arr);
+void			choose_combos(t_lem_in *data);
+
+/*
+**	parse_links.c
+*/
+void			get_edge(char *line, t_lem_in *data);
+
+/*
+**	print1.c + print2.c
+*/
+void        	print_solution(t_lem_in *data);
+int				*calc_ant_spread(t_lem_in *data, int i);
+void			spawn_ants(t_ant *ant_list, int *spread, int i, t_lem_in *data);
+
+/*
+**	validate_format.c
+*/
+int				ft_validate_format(char *format, char *str);
+
+/*
+**	build_graph.c
+*/
+void			build_graph(t_lem_in *data);
+
+/*
+**	trim_graph.c
+*/
+void			trim_graph(t_hash_graph *node);
+
+/*
+**	build_hash.c
+*/
+void    		get_node(char *line, t_lem_in *data);
+void			deal_hash(char *line, t_lem_in *data);
+void			add_list(char *line, t_lem_in *data);
+
+/*
+**	help_build.c
+*/
+int				check_node(char *line);
+int				check_edge(char *line);
+int				ft_hash_str(char *key, int size);
+int				get_next_prime(int n);
+int				ft_isprime(int n);
+
+/*
+**	pathing.c
+*/
+void			find_paths(t_lem_in *data);
 
 #endif

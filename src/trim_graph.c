@@ -5,12 +5,28 @@
 /*                                                     +:+                    */
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/08/20 19:56:04 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/08/26 16:53:47 by tide-jon      ########   odam.nl         */
+/*   Created: 2019/09/11 13:37:40 by awehlbur       #+#    #+#                */
+/*   Updated: 2019/09/11 13:55:09 by awehlbur      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
+
+void	help_trim_graph(t_hash_graph *temp, t_hash_graph *node, \
+															t_neighbours *nb)
+{
+	while (temp != NULL && nb->neighbours != NULL)
+	{
+		if (nb->neighbours->node == temp)
+		{
+			nb->neighbours = nb->neighbours->neighbours;
+			if (node->type == 0)
+				trim_graph(node);
+			break ;
+		}
+		nb = nb->neighbours;
+	}
+}
 
 void	trim_graph(t_hash_graph *node)
 {
@@ -18,7 +34,7 @@ void	trim_graph(t_hash_graph *node)
 	t_neighbours	*nb;
 
 	temp = NULL;
-	if (node->neighbours->neighbours == NULL) // <-- alleen 1 connectie?
+	if (node->neighbours->neighbours == NULL)
 	{
 		temp = node;
 		node = node->neighbours->node;
@@ -31,17 +47,5 @@ void	trim_graph(t_hash_graph *node)
 			trim_graph(node);
 	}
 	else
-	{
-		while (temp != NULL && nb->neighbours != NULL)
-		{
-			if (nb->neighbours->node == temp)
-			{
-				nb->neighbours = nb->neighbours->neighbours;
-				if (node->type == 0)
-					trim_graph(node);
-				break ;
-			}
-		nb = nb->neighbours;
-		}
-	}
+		help_trim_graph(temp, node, nb);
 }
