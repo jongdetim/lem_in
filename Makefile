@@ -6,43 +6,52 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/09/09 18:48:33 by tide-jon      ########   odam.nl          #
+#    Updated: 2019/09/04 14:01:00 by awehlbur      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		lem-in
+INCLUDES =		-Ilibft/Includes -I.
 
-LIBFT =		libft/libft.a
+LIB =			libft
 
-FILES =		main.c input_check.c validate_format.c build_graph.c \
-			bfs.c pathing.c combos.c combos2.c print1.c trim_graph.c \
-			build_hash.c help_build.c parse_links.c print2.c
+LIB.A =			libft.a
 
-SRCS =		$(FILES:%=src/%)
+LI_SRC_NAME =	input_check.c lem_in.c main.c validate_format.c trim_graph.c \
+				bfs.c pathing.c combos.c print_solution.c
 
-OBJECTS =	$(SRCS:src/%.c=obj/%.o)
+LI_OBJ_NAME =	$(LI_SRC_NAME:.c=.o)
 
-FLAGS =		-Wall -Wextra -Werror
+SRC_PATH =		src
 
-all : $(NAME)
+OBJ_PATH =		obj
 
-$(NAME) : $(OBJECTS) $(LIBFT)
-			 gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
-			 echo "lem-in executable compiled"
+LI_SRC =		$(addprefix $(SRC_PATH)/, $(LI_SRC_NAME))
 
-$(LIBFT):
-	 		 make -C ./libft/
+LI_OBJ =		$(addprefix $(OBJ_PATH)/, $(LI_OBJ_NAME))
 
-obj/%.o : src/%.c lem_in.h
-			 gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
+NAME_C =		lem_in
+
+FLAGS =			-Wall -Wextra -Werror
+
+all : 			library $(NAME_C)
+
+library :
+				make -C $(LIB)
+
+$(NAME_C) : $(LI_OBJ)
+				gcc -g -o $@ $(LI_OBJ) $(INCLUDES) $(LIB)/$(LIB.A)
+
+$(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
+				@mkdir -p $(OBJ_PATH)
+				@mkdir -p $(dir $(LI_OBJ))
+				gcc -g -o $@ -c $< $(INCLUDES) $(FLAGS)
 
 clean :
-			@ make clean -C ./libft/ && rm -f $(OBJ_PATH)
+				rm -fr $(OBJ_PATH)
+				make clean -C $(LIB)
 
-fclean :
-			@ make fclean -C ./libft/ && rm -f $(NAME) && \
-			rm -f $(OBJECTS)
+fclean : clean
+				rm -f $(NAME_C)
+				make fclean -C $(LIB)
 
 re : fclean all
-
-.PHONY: clean fclean all re
