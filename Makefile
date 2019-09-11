@@ -14,30 +14,31 @@ NAME =		lem-in
 
 LIBFT =		libft/libft.a
 
-FILES =		main.c input_check.c validate_format.c build_graph.c \
+FILES =		input_check.c main.c validate_format.c build_graph.c \
 			bfs.c pathing.c combos.c combos2.c print1.c trim_graph.c \
 			build_hash.c help_build.c parse_links.c print2.c
 
 SRCS =		$(FILES:%=src/%)
 
-OBJECTS =	$(SRCS:src/%.c=obj/%.o)
+OBJECTS =	$(addprefix obj/, $(SRCS:src/%.c=%.o))
 
 FLAGS =		-Wall -Wextra -Werror
 
-all : $(NAME)
+all : $(MKDIR) $(NAME)
 
 $(NAME) : $(OBJECTS) $(LIBFT)
-			 gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
-			 echo "lem-in executable compiled"
+			gcc $(FLAGS) -o $@ $(OBJECTS) -L ./libft/ -lft
+			echo "lem-in executable compiled"
 
 $(LIBFT):
-	 		 make -C ./libft/
+	 		make -C ./libft/
 
-obj/%.o : src/%.c lem_in.h
-			 gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
+./obj/%.o : src/%.c
+			mkdir -p obj
+			gcc $(FLAGS) $< -c -o $@
 
 clean :
-			@ make clean -C ./libft/ && rm -f $(OBJ_PATH)
+			@ make clean -C ./libft/ && rm -f $(OBJECTS)
 
 fclean :
 			@ make fclean -C ./libft/ && rm -f $(NAME) && \
