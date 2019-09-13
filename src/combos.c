@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/28 15:27:09 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/10 20:08:44 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/13 18:18:02 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static void	save_combo(t_lem_in *data, int *arr)
 	}
 }
 
-static void	find_combos(t_lem_in *data)
+static int	find_combos(t_lem_in *data)
 {
 	int				arr[data->combo_max];
 	int				j;
@@ -173,12 +173,102 @@ static void	find_combos(t_lem_in *data)
 		save_combo(data, arr);
 		i++;
 	}
+	return (i - 1);
+}
+
+void		find_combos_rev(t_lem_in *data, int path_nums)
+{
+	int				arr[data->combo_max];
+	int				j;
+	int				i;
+
+	i = 0;
+	while (data->complete[i] != NULL)
+	{
+		j = 0;
+		while(j < data->combo_max)
+		{
+			arr[j] = -1;
+			j++;
+		}
+		j = path_nums;
+		arr[0] = i;
+		while (j > 0 && arr[data->combo_max - 1] == -1)
+		{
+			if (i != j)
+				combo_helper(j, data, arr);
+			j--;
+		}
+		save_combo(data, arr);
+		i++;
+	}
+}
+
+void		find_combos_again(t_lem_in *data)
+{
+	int				arr[data->combo_max];
+	int				j;
+	int				i;
+
+	i = 0;
+	while (data->complete[i] != NULL)
+	{
+		j = 0;
+		while(j < data->combo_max)
+		{
+			arr[j] = -1;
+			j++;
+		}
+		j = i;
+		arr[0] = i;
+		while (j > 0 && arr[data->combo_max - 1] == -1)
+		{
+			if (i != j)
+				combo_helper(j, data, arr);
+			j--;
+		}
+		save_combo(data, arr);
+		i++;
+	}
+}
+
+void		find_combos_oncemore(t_lem_in *data)
+{
+	int				arr[data->combo_max];
+	int				j;
+	int				i;
+
+	i = 0;
+	while (data->complete[i] != NULL)
+	{
+		j = 0;
+		while(j < data->combo_max)
+		{
+			arr[j] = -1;
+			j++;
+		}
+		j = i;
+		arr[0] = i;
+		while (data->complete[j] != NULL && arr[data->combo_max - 1] == -1)
+		{
+			if (i != j)
+				combo_helper(j, data, arr);
+			j++;
+		}
+		save_combo(data, arr);
+		i++;
+	}
 }
 
 void		choose_combos(t_lem_in *data)
 {
+	int	path_nums;
+
 	while (data->complete[data->path_num] != NULL)
 		data->path_num++;
 	get_combo_max(data);
-	find_combos(data);
+	path_nums = find_combos(data);
+	find_combos_rev(data, path_nums);
+	find_combos_again(data);
+	find_combos_oncemore(data);
 }

@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/10 20:07:13 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/13 17:33:11 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,61 +57,61 @@ int		main(void)
 	bfs(&data);
 	find_paths(&data);
 	choose_combos(&data);
-	// print_solution(&data);
+	print_solution(&data);
 
 //	PRINT AMOUNT OF STEPS IN EVERY PATH
-	int	i;
-	int	j;
-	int	k;
+	// int	i;
+	// int	j;
+	// int	k;
 
-	k = 0;
-	i = 0;
-	j = 0;
-	while (i < PATH_NUMS && data.complete[i] != NULL)
-	{
-		j = 0;
-		if (data.complete[i][0] != NULL)
-		{
-			while (j < PATH_LEN && data.complete[i][j] != NULL)
-			{
-				// if (j < 5)
-				// {
-				// 	ft_putnbr(data.complete[i][j]->conn);
-				// 	ft_putendl("");
-				// }
-				j++;
-			}
-			// ft_putnbr(j - 1);
-			// ft_putendl("");
-			// ft_putendl("");
-			k++;
-		}
-		i++;
-	}
-	ft_printf("%i paths\n", k);
+	// k = 0;
+	// i = 0;
+	// j = 0;
+	// while (i < PATH_NUMS && data.complete[i] != NULL)
+	// {
+	// 	j = 0;
+	// 	if (data.complete[i][0] != NULL)
+	// 	{
+	// 		while (j < PATH_LEN && data.complete[i][j] != NULL)
+	// 		{
+	// 			// if (j < 5)
+	// 			// {
+	// 			// 	ft_putnbr(data.complete[i][j]->conn);
+	// 			// 	ft_putendl("");
+	// 			// }
+	// 			j++;
+	// 		}
+	// 		// ft_putnbr(j - 1);
+	// 		// ft_putendl("");
+	// 		// ft_putendl("");
+	// 		k++;
+	// 	}
+	// 	i++;
+	// }
+	// ft_printf("%i paths\n", k);
 
 //	PRINT SOLUTION AMOUNT OF STEPS
 
-	ft_putnbr(data.solution_steps);
-	ft_putendl(" steps to solve");
+	// ft_putnbr(data.solution_steps);
+	// ft_putendl(" steps to solve");
 
 //	PRINT SOLUTION COMBO
 	// i = 0;
 	// while (i < PATH_NUMS && data.solution[i] != NULL)
 	// {
-	// 	j = 0;
-	// 	if (data.solution[i][j] != NULL)
-	// 	{
-	// 		while (j < PATH_LEN && data.solution[i][j] != NULL)
-	// 		{
-	// 			ft_putendl(data.solution[i][j]->key);
-	// 			j++;
-	// 		}
-	// 		ft_putendl("");
-	// 	}
+	// 	// j = 0;
+	// 	// if (data.solution[i][j] != NULL)
+	// 	// {
+	// 	// 	while (j < PATH_LEN && data.solution[i][j] != NULL)
+	// 	// 	{
+	// 	// 		ft_putendl(data.solution[i][j]->key);
+	// 	// 		j++;
+	// 	// 	}
+	// 	// 	ft_putendl("");
+	// 	// }
 	// 	i++;
 	// }
-
+	// ft_putnbr(i);
 
 //	PRINT PATHS
 	// int i;

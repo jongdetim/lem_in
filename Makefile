@@ -6,7 +6,7 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/26 16:43:01 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/09/10 20:03:06 by tide-jon      ########   odam.nl          #
+#    Updated: 2019/09/13 15:23:56 by tide-jon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ obj/%.o : src/%.c lem_in.h
 			@ gcc $(FLAGS) $< -c -o $@ -I ./lem_in.h
 
 clean :
-			@ make clean -C ./libft/ && rm -f $(OBJ_PATH)
+			@ make clean -C ./libft/ && rm -f $(OBJECTS)
 
 fclean :
 			@ make fclean -C ./libft/ && rm -f $(NAME) && \

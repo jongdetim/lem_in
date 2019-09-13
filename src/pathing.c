@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/10 19:31:20 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/13 17:55:18 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	{
 		extend_path(data, queue, save, 0);
 		max = 0;
-		while (max < 3 && n > 0)
+		while (max < 5 && n > 0)
 		{
 			mem[max] = save;
 			nb = queue->path[i]->neighbours;
