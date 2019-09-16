@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 17:38:47 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/23 13:29:52 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 19:09:59 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,36 @@ typedef struct		s_gnl_list
 
 typedef struct		s_printf
 {
-    va_list	args;
-    va_list	backup;
-    int		precision;
-    int		width;
-    char	*format;
-    char	type;
-    int		ret;
-    short	zero;
-    short	dot;
-    short	space;
-    short	hash;
-    short	minus;
-    short	plus;
-    char	length;
-    void	(*arr[11])(struct s_printf*);
+	va_list	args;
+	va_list	backup;
+	int		precision;
+	int		width;
+	char	*format;
+	char	type;
+	int		ret;
+	short	zero;
+	short	dot;
+	short	space;
+	short	hash;
+	short	minus;
+	short	plus;
+	char	length;
+	void	(*arr[11])(struct s_printf*);
 }					t_printf;
 
+char				*ft_get_first_substr(char *str);
+void				ft_error(char *str);
+int					ft_hash_str(char *key, int size);
+int					ft_isprime(int n);
+int					ft_get_next_prime(int n);
 char				*ft_strjoinfree(char *s1, char *s2);
 void				process_int(t_printf *data);
 void				parser(t_printf *data);
 void				lowestll(t_printf *data);
 void				flaghandler_o(t_printf *data, int len, short hash,
-                                  unsigned long long d);
+												unsigned long long d);
 void				flaghandler_x(t_printf *data, int len, short hash,
-                                  unsigned long long d);
+												unsigned long long d);
 void				dispatcher(t_printf *data);
 void				build_dispatcher(t_printf *data);
 void				init_data(t_printf *data);

@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/13 17:55:18 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 18:34:59 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 				break ;
 			j++;
 		}
-		if (j == i && nb->node->type != 1 && nb->node->visited != 30) 
+		if (j == i && nb->node->type != 1 && nb->node->visited != MAX_VISITS) 
 		{
 			if (nb->node->level < lowest)
 			{
@@ -185,31 +185,31 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 					j++;
 				}
 				if (max == 0 && j == i && nb->node->type != 1 && nb != mem[0] &&
-				nb->node->level < lowest && nb->node->visited != 30)
+				nb->node->level < lowest && nb->node->visited != MAX_VISITS)
 				{
 					lowest = nb->node->level;
 					save = nb;
 				}
 				else if (max == 1 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb->node->level < lowest && nb->node->visited != 30)
+				nb != mem[0] && nb != mem[1] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
 				{
 					lowest = nb->node->level;
 					save = nb;
 				}
 				else if (max == 2 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb->node->level < lowest && nb->node->visited != 30)
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
 				{
 					lowest = nb->node->level;
 					save = nb;
 				}
 				else if (max == 3 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb->node->level < lowest && nb->node->visited != 30)
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
 				{
 					lowest = nb->node->level;
 					save = nb;
 				}
 				else if (max == 4 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb != mem[4] && nb->node->level < lowest && nb->node->visited != 30)
+				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb != mem[4] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
 				{
 					lowest = nb->node->level;
 					save = nb;

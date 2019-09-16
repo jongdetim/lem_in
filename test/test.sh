@@ -444,7 +444,7 @@ do
 		elif (( $(echo "$time4<12.0" | bc -l) ))
 		then
 			CLR2=$YELLOW
-		elif (( $(echo "$time4<15.0" | bc -l) ))
+		elif (( $(echo "$time4>=12.0" | bc -l) ))
 		then
 			CLR2=$RED
 			CLR3=$RED

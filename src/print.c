@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   print.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2019/09/16 19:50:41 by tide-jon       #+#    #+#                */
+/*   Updated: 2019/09/16 19:52:31 by tide-jon      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../lem_in.h"
 
-void	print_lst_rev(t_str_lst *lst)
+void			print_lst_rev(t_str_lst *lst)
 {
 	if (lst == NULL)
-		return;
+		return ;
 	else
 		print_lst_rev(lst->next);
 	ft_putendl(lst->content);
 }
 
-int		*calc_ant_spread(t_lem_in *data, int i)
+int				*calc_ant_spread(t_lem_in *data, int i)
 {
 	int	*spread;
 	int	j;
@@ -28,40 +40,7 @@ int		*calc_ant_spread(t_lem_in *data, int i)
 	return (spread);
 }
 
-void	spawn_helper(int *j, int *spread, t_lem_in *data, t_ant **ant_list)
-{
-	if ((*ant_list)->room != NULL)
-	{
-		(*ant_list)->next = (t_ant*)ft_memalloc(sizeof(t_ant));
-		(*ant_list) = (*ant_list)->next;
-	}
-	(*ant_list)->room = data->solution[*j];
-	spread[*j]--;
-	data->amount--;
-}
-
-void	spawn_ants(t_ant *ant_list, int *spread, int i, t_lem_in *data)
-{
-	static int	ant_num;
-	int 		j;
-
-	j = 0;
-	while (ant_list->next != NULL)
-		ant_list = ant_list->next;
-	while (j < i && data->amount != 0)
-	{
-		if (spread[j] != 0)
-		{
-			ant_num++;
-			spawn_helper(&j, spread, data, &ant_list);
-			ant_list->ant = ant_num;
-		}
-		j++;
-	}
-	ant_list->next = NULL;
-}
-
-void	free_ant(t_ant **ant_list, t_ant *prev, t_ant **start)
+static void		free_ant(t_ant **ant_list, t_ant *prev, t_ant **start)
 {
 	if (*ant_list == *start)
 	{
@@ -75,9 +54,9 @@ void	free_ant(t_ant **ant_list, t_ant *prev, t_ant **start)
 	}
 }
 
-t_ant	*move_ants(t_ant *ant_list)
+static t_ant	*move_ants(t_ant *ant_list)
 {
-	t_ant 	*start;
+	t_ant	*start;
 	t_ant	*prev;
 
 	start = ant_list;
@@ -98,7 +77,7 @@ t_ant	*move_ants(t_ant *ant_list)
 	return (start);
 }
 
-void	print_solution(t_lem_in *data)
+void			print_solution(t_lem_in *data)
 {
 	int		*spread;
 	int		i;

@@ -6,13 +6,13 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/21 12:34:38 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/10 20:02:16 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 19:53:38 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-static void		pop_queue(t_bfs_queue **queue)
+static void			pop_queue(t_bfs_queue **queue)
 {
 	t_bfs_queue	*temp;
 
@@ -21,7 +21,7 @@ static void		pop_queue(t_bfs_queue **queue)
 	*queue = temp;
 }
 
-static void		enqueue(t_hash_graph *node, t_lem_in *data)
+static void			enqueue(t_hash_graph *node, t_lem_in *data)
 {
 	t_bfs_queue *current;
 
@@ -36,26 +36,34 @@ static void		enqueue(t_hash_graph *node, t_lem_in *data)
 	}
 }
 
-void			level_graph(t_hash_graph *node, t_neighbours *nb)
+static void			level_graph(t_hash_graph *node, t_neighbours *nb)
 {
 	if (nb->node->type != 2 &&
 	(nb->node->level == 0 || nb->node->level > node->level + 1))
 		nb->node->level = node->level + 1;
 }
 
-void			bfs(t_lem_in *data)
+static t_bfs_queue	*bfs_helper(t_lem_in *data, t_hash_graph *node)
+{
+	t_bfs_queue	*queue;
+
+	queue = (t_bfs_queue*)malloc(sizeof(t_bfs_queue));
+	queue->next = NULL;
+	queue->node = node;
+	data->end_of_bfs_queue = queue;
+	return (queue);
+}
+
+void				bfs(t_lem_in *data)
 {
 	t_bfs_queue		*queue;
 	t_hash_graph	*node;
 	t_neighbours	*neighbours;
 	int				nb_amount;
 
-	queue = (t_bfs_queue*)malloc(sizeof(t_bfs_queue));
-	queue->next = NULL;
 	node = data->end;
 	node->visited = 1;
-	queue->node = node;	
-	data->end_of_bfs_queue = queue;
+	queue = bfs_helper(data, node);
 	while (queue != NULL)
 	{
 		nb_amount = 0;
