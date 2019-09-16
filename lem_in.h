@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/16 19:50:10 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 20:27:31 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct		s_path_queue
 	struct s_path_queue	*next;
 }					t_path_queue;
 
-typedef struct 		s_bfs_queue
+typedef struct		s_bfs_queue
 {
 	t_hash_graph		*node;
 	struct s_bfs_queue	*next;
@@ -67,12 +67,12 @@ typedef struct		s_combos
 	struct s_combos		*next;
 }					t_combos;
 
-typedef struct			s_ant
+typedef struct		s_ant
 {
-    struct s_ant		*next;
-    int					ant;
+	struct s_ant		*next;
+	int					ant;
 	t_hash_graph		**room;
-}						t_ant;
+}					t_ant;
 
 typedef struct		s_lem_in
 {
@@ -103,58 +103,70 @@ typedef struct		s_lem_in
 /*
 **	main.c
 */
-void			add_list(char *line, t_lem_in *data);
+void				add_list(char *line, t_lem_in *data);
 
 /*
 **	validate_format.c
 */
-int				ft_validate_format(char *format, char *str);
+int					ft_validate_format(char *format, char *str);
 
 /*
 **	input_check.c
 */
-void			check_comment(char *str, t_lem_in *data);
-void			validate_ants(t_lem_in *data);
+void				check_comment(char *str, t_lem_in *data);
+void				validate_ants(t_lem_in *data);
 
 /*
 **	get_rooms.c
 */
-int				create_rooms(t_lem_in *data, char *line);
+int					create_rooms(t_lem_in *data, char *line);
 
-/* 
+/*
+**	build_graph.c
+*/
+void				build_graph(t_lem_in *data);
+
+/*
 **	connect_graph.c
 */
-void			read_edge(char *line, t_lem_in *data);
+void				read_edge(char *line, t_lem_in *data);
 
 /*
 **	bfs.c
 */
-void			bfs(t_lem_in *data);
+void				bfs(t_lem_in *data);
 
 /*
 **	trim_graph.c
 */
-void			trim_graph(t_hash_graph *node);
+void				trim_graph(t_hash_graph *node);
 
 /*
 **	pathing.c
 */
-void			find_paths(t_lem_in *data);
+void				find_paths(t_lem_in *data);
 
 /*
 **	combos.c
 */
-void			choose_combos(t_lem_in *data);
+void				choose_combos(t_lem_in *data);
+
+/*
+**	combos_helper.c
+*/
+void				combo_helper(int j, t_lem_in *data, int *arr);
+float				calculate_steps(t_lem_in *data, int *arr);
 
 /*
 **	spawn_ants.c
 */
-void			spawn_ants(t_ant *ant_list, int *spread, int i, t_lem_in *data);
+void				spawn_ants(t_ant *ant_list, int *spread,
+										int i, t_lem_in *data);
 
 /*
 **	print.c
 */
-void			print_solution(t_lem_in *data);
-void			print_lst_rev(t_str_lst *lst);
+void				print_solution(t_lem_in *data);
+void				print_lst_rev(t_str_lst *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 18:34:59 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 21:14:12 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	pop_queue_path(t_path_queue **queue)
 static void	enqueue_path(t_hash_graph **path, t_lem_in *data)
 {
 	t_path_queue *current;
-	
+
 	current = data->end_of_queue;
 	current->next = (t_path_queue*)malloc(sizeof(t_path_queue));
 	current->next->path = path;
@@ -46,7 +46,7 @@ static void	allocate_paths(t_lem_in *data)
 															* (PATH_LEN + 1));
 		j = 0;
 		while (j <= PATH_LEN)
-		{ 
+		{
 			data->paths[i][j] = NULL;
 			j++;
 		}
@@ -72,6 +72,29 @@ static void	check_finish(t_hash_graph **path,
 	}
 }
 
+static void	extend_helper(t_lem_in *data, t_path_queue *queue,
+										int i, t_neighbours *nb)
+{
+	int	j;
+
+	j = 0;
+	while (data->paths[i][0] != NULL)
+	{
+		i++;
+		if (i == PATH_NUMS)
+			return ;
+	}
+	while (queue->path[j + 1] != NULL)
+	{
+		data->paths[i][j] = queue->path[j];
+		j++;
+		if (j == PATH_LEN)
+			return ;
+	}
+	data->paths[i][j] = nb->node;
+	check_finish(data->paths[i], nb, data);
+}
+
 static void	extend_path(t_lem_in *data, t_path_queue *queue,
 										t_neighbours *nb, int n)
 {
@@ -94,23 +117,7 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 		check_finish(queue->path, nb, data);
 	}
 	else
-	{
-		while (data->paths[i][0] != NULL)
-		{
-			i++;
-			if (i == PATH_NUMS)
-				return ;
-		}
-		while (queue->path[j + 1] != NULL)
-		{
-			data->paths[i][j] = queue->path[j];
-			j++;
-			if (j == PATH_LEN)
-				return ;
-		}
-		data->paths[i][j] = nb->node;
-		check_finish(data->paths[i], nb, data);
-	}
+		extend_helper(data, queue, i, nb);
 }
 
 static void	delete_path(t_hash_graph **path)
@@ -125,6 +132,63 @@ static void	delete_path(t_hash_graph **path)
 	}
 }
 
+void	take_next_lowest(t_neighbours *nb, t_path_queue *queue, int i, int max, int lowest, t_neighbours *mem[5], t_neighbours *save)
+{
+	int	j;
+	
+	j = 0;
+	while (j < i)
+	{
+		if (queue->path[j] == nb->node)
+			break ;
+		j++;
+	}
+	if (j == i && nb->node->type != 1 && nb->node->level < lowest &&
+									nb->node->visited != MAX_VISITS)
+	{
+		j = 0;
+		while (j <= max)
+		{
+			if (nb == mem[j])
+				break ;
+			j++;
+		}
+		if (j > max)
+		{
+			lowest = nb->node->level;
+			save = nb;
+		}
+	}
+}
+
+void	take_lowest_levels(t_lem_in *data, t_path_queue *queue,
+										t_neighbours *save, int n, int i)
+{
+	int				max;
+	t_neighbours	*mem[5];
+	t_neighbours	*nb;
+	int				lowest;
+
+	extend_path(data, queue, save, 0);
+	max = 0;
+	while (max < 5 && n > 0)
+	{
+		mem[max] = save;
+		nb = queue->path[i]->neighbours;
+		lowest = INT_MAX;
+		while (nb != NULL)
+		{
+			take_next_lowest(nb, queue, i, max, lowest, mem, save);
+			nb = nb->neighbours;
+		}
+		extend_path(data, queue, save, n);
+		if (save->node->type == 2)
+			return ;
+		max++;
+		n--;
+	}
+}
+
 static void	deal_step(t_lem_in *data, t_path_queue *queue,
 											t_neighbours *nb, int n)
 {
@@ -132,8 +196,6 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	int				j;
 	t_neighbours	*save;
 	int				lowest;
-	int				max;
-	t_neighbours	*mem[5];
 
 	i = 0;
 	lowest = INT_MAX;
@@ -167,67 +229,10 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 		nb = nb->neighbours;
 	}
 	if (i > 0 && n >= 0)
-	{
-		extend_path(data, queue, save, 0);
-		max = 0;
-		while (max < 5 && n > 0)
-		{
-			mem[max] = save;
-			nb = queue->path[i]->neighbours;
-			lowest = INT_MAX;
-			while (nb != NULL)
-			{
-				j = 0;
-				while (j < i)
-				{
-					if (queue->path[j] == nb->node)
-						break ;
-					j++;
-				}
-				if (max == 0 && j == i && nb->node->type != 1 && nb != mem[0] &&
-				nb->node->level < lowest && nb->node->visited != MAX_VISITS)
-				{
-					lowest = nb->node->level;
-					save = nb;
-				}
-				else if (max == 1 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
-				{
-					lowest = nb->node->level;
-					save = nb;
-				}
-				else if (max == 2 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
-				{
-					lowest = nb->node->level;
-					save = nb;
-				}
-				else if (max == 3 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
-				{
-					lowest = nb->node->level;
-					save = nb;
-				}
-				else if (max == 4 && j == i && nb->node->type != 1 &&
-				nb != mem[0] && nb != mem[1] && nb != mem[2] && nb != mem[3] && nb != mem[4] && nb->node->level < lowest && nb->node->visited != MAX_VISITS)
-				{
-					lowest = nb->node->level;
-					save = nb;
-				}
-				nb = nb->neighbours;
-			}
-			extend_path(data, queue, save, n);
-			if (save->node->type == 2)
-				return ;
-			max++;
-			n--;
-		}
-	}
+		take_lowest_levels(data, queue, save, n, i);
 	else if (n == -1)
 		delete_path(queue->path);
 }
-
-
 
 void		find_paths(t_lem_in *data)
 {

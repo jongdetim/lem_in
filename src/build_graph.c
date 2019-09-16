@@ -6,13 +6,14 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/09/16 18:43:47 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 19:55:13 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/16 20:06:53 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem_in.h"
 
-void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)
+static void	get_node_type(t_hash_graph *node, t_lem_in_lst *current,
+														t_lem_in *data)
 {
 	node->type = current->type;
 	if (node->type == 1)
@@ -21,7 +22,7 @@ void	get_node_type(t_hash_graph *node, t_lem_in_lst *current, t_lem_in *data)
 		data->end = node;
 }
 
-void	build_graph(t_lem_in *data)
+void		build_graph(t_lem_in *data)
 {
 	int				index;
 	t_lem_in_lst	*current;
