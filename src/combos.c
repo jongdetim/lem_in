@@ -90,10 +90,39 @@ static int		find_combos(t_lem_in *data)
 	return (i - 1);
 }
 
+static void		find_combos_oncemore(t_lem_in *data)
+{
+	int				arr[data->combo_max];
+	int				j;
+	int				i;
+
+	i = 0;
+	while (data->complete[i] != NULL)
+	{
+		j = 0;
+		while(j < data->combo_max)
+		{
+			arr[j] = -1;
+			j++;
+		}
+		j = i;
+		arr[0] = i;
+		while (data->complete[j] != NULL && arr[data->combo_max - 1] == -1)
+		{
+			if (i != j)
+				combo_helper(j, data, arr);
+			j++;
+		}
+		save_combo(data, arr);
+		i++;
+	}
+}
+
 void			choose_combos(t_lem_in *data)
 {
 	while (data->complete[data->path_num] != NULL)
 		data->path_num++;
 	get_combo_max(data);
 	find_combos(data);
+	find_combos_oncemore(data);
 }
