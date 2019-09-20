@@ -99,10 +99,8 @@ static void	extend_path(t_lem_in *data, t_path_queue *queue,
 										t_neighbours *nb, int n)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
 	if (nb->node->type != 2)
 		nb->node->visited++;
 	if (n == 0)
@@ -132,7 +130,7 @@ static void	delete_path(t_hash_graph **path)
 	}
 }
 
-void	take_next_lowest(t_neighbours *nb, t_path_queue *queue, int i, int max, int lowest, t_neighbours *mem[5], t_neighbours *save)
+void	take_next_lowest(t_neighbours *nb, t_path_queue *queue, int i, int max, int lowest, t_neighbours *mem[5], t_neighbours **save)
 {
 	int	j;
 	
@@ -156,7 +154,7 @@ void	take_next_lowest(t_neighbours *nb, t_path_queue *queue, int i, int max, int
 		if (j > max)
 		{
 			lowest = nb->node->level;
-			save = nb;
+			*save = nb;
 		}
 	}
 }
@@ -178,7 +176,7 @@ void	take_lowest_levels(t_lem_in *data, t_path_queue *queue,
 		lowest = INT_MAX;
 		while (nb != NULL)
 		{
-			take_next_lowest(nb, queue, i, max, lowest, mem, save);
+			take_next_lowest(nb, queue, i, max, lowest, mem, &save);
 			nb = nb->neighbours;
 		}
 		extend_path(data, queue, save, n);

@@ -34,6 +34,7 @@ $(LIBFT):
 	 		@ make -C ./libft/
 
 obj/%.o : src/%.c lem_in.h
+			@ mkdir -p obj
 			@ gcc $(FLAGS) $< -c -o $@
 
 clean :

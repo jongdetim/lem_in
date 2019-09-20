@@ -42,6 +42,9 @@ int			main(void)
 	char		*line;
 	t_lem_in	data;
 
+	close(0);
+	open("bigmap2", O_RDONLY);
+
 	init_lem_in(&data);
 	validate_ants(&data);
 	while (get_next_line(0, &line) == 1)

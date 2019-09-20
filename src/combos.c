@@ -92,10 +92,8 @@ static int		find_combos(t_lem_in *data)
 
 void			choose_combos(t_lem_in *data)
 {
-	int	path_nums;
-
 	while (data->complete[data->path_num] != NULL)
 		data->path_num++;
 	get_combo_max(data);
-	path_nums = find_combos(data);
+	find_combos(data);
 }
