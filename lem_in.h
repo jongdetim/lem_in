@@ -19,6 +19,16 @@
 # define HTABLE_SIZE 64
 # define MAX_VISITS 30
 
+typedef struct		s_pathing_params
+{
+	int					n;
+	int					i;
+	int					lowest;
+	struct s_neighbours	*save;
+	struct s_neighbours	*mem[5];
+	struct s_neighbours	*nb;
+}					t_pathing_params;
+
 typedef struct		s_str_lst
 {
 	char				*content;

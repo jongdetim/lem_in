@@ -43,7 +43,7 @@ int			main(void)
 	t_lem_in	data;
 
 	close(0);
-	open("bigmap2", O_RDONLY);
+	open("./outlier", O_RDONLY);
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -63,5 +63,8 @@ int			main(void)
 	find_paths(&data);
 	choose_combos(&data);
 	print_solution(&data);
+
+	ft_putnbr(data.solution_steps);
+
 	return (0);
 }

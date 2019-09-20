@@ -15,12 +15,15 @@
 static void	trim_helper(t_neighbours *nb, t_hash_graph *node,
 											t_hash_graph *temp)
 {
+	t_neighbours	*temp2;
+
 	while (nb->neighbours != NULL)
 	{
 		if (nb->neighbours->node == temp)
 		{
-			free(nb->neighbours);
+			temp2 = nb->neighbours;
 			nb->neighbours = nb->neighbours->neighbours;
+			free(temp2);
 			if (node->type == 0)
 				trim_graph(node);
 			break ;
@@ -35,7 +38,7 @@ void		trim_graph(t_hash_graph *node)
 	t_neighbours	*nb;
 
 	temp = NULL;
-	if (node->neighbours->neighbours == NULL)
+	if (node->conn == 1)
 	{
 		temp = node;
 		node = node->neighbours->node;
@@ -44,8 +47,8 @@ void		trim_graph(t_hash_graph *node)
 	nb = node->neighbours;
 	if (temp != NULL && nb->node == temp)
 	{
-		free(node->neighbours);
 		node->neighbours = node->neighbours->neighbours;
+		free(nb);
 		if (node->type == 0)
 			trim_graph(node);
 	}

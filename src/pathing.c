@@ -130,105 +130,102 @@ static void	delete_path(t_hash_graph **path)
 	}
 }
 
-void	take_next_lowest(t_neighbours *nb, t_path_queue *queue, int i, int max, int lowest, t_neighbours *mem[5], t_neighbours **save)
+void	take_next_lowest(t_path_queue *queue, int max, t_pathing_params *params)
 {
 	int	j;
 	
 	j = 0;
-	while (j < i)
+	while (j < params->i)
 	{
-		if (queue->path[j] == nb->node)
+		if (queue->path[j] == params->nb->node)
 			break ;
 		j++;
 	}
-	if (j == i && nb->node->type != 1 && nb->node->level < lowest &&
-									nb->node->visited != MAX_VISITS)
+	if (j == params->i && params->nb->node->type != 1 && params->nb->node->level
+					< params->lowest && params->nb->node->visited != MAX_VISITS)
 	{
 		j = 0;
 		while (j <= max)
 		{
-			if (nb == mem[j])
+			if (params->nb == params->mem[j])
 				break ;
 			j++;
 		}
 		if (j > max)
 		{
-			lowest = nb->node->level;
-			*save = nb;
+			params->lowest = params->nb->node->level;
+			params->save = params->nb;
 		}
 	}
 }
 
 void	take_lowest_levels(t_lem_in *data, t_path_queue *queue,
-										t_neighbours *save, int n, int i)
+										t_pathing_params *params)
 {
 	int				max;
-	t_neighbours	*mem[5];
-	t_neighbours	*nb;
-	int				lowest;
 
-	extend_path(data, queue, save, 0);
+	extend_path(data, queue, params->save, 0);
 	max = 0;
-	while (max < 5 && n > 0)
+	while (max < 5 && params->n > 0)
 	{
-		mem[max] = save;
-		nb = queue->path[i]->neighbours;
-		lowest = INT_MAX;
-		while (nb != NULL)
+		params->mem[max] = params->save;
+		params->nb = queue->path[params->i]->neighbours;
+		params->lowest = INT_MAX;
+		while (params->nb != NULL)
 		{
-			take_next_lowest(nb, queue, i, max, lowest, mem, &save);
-			nb = nb->neighbours;
+			take_next_lowest(queue, max, params);
+			params->nb = params->nb->neighbours;
 		}
-		extend_path(data, queue, save, n);
-		if (save->node->type == 2)
+		extend_path(data, queue, params->save, params->n);
+		if (params->save->node->type == 2)
 			return ;
 		max++;
-		n--;
+		params->n--;
 	}
 }
 
 static void	deal_step(t_lem_in *data, t_path_queue *queue,
-											t_neighbours *nb, int n)
+											t_neighbours *nb)
 {
-	int				i;
-	int				j;
-	t_neighbours	*save;
-	int				lowest;
+	int					j;
+	t_pathing_params	params;
 
-	i = 0;
-	lowest = INT_MAX;
-	while (queue->path[i + 1] != NULL)
+	params.i = 0;
+	params.n = -1;
+	params.lowest = INT_MAX;
+	while (queue->path[params.i + 1] != NULL)
 	{
-		i++;
-		if (i == PATH_LEN - 1)
+		params.i++;
+		if (params.i == PATH_LEN - 1)
 			return ;
 	}
-	nb = queue->path[i]->neighbours;
+	nb = queue->path[params.i]->neighbours;
 	while (nb != NULL)
 	{
 		j = 0;
-		while (j < i)
+		while (j < params.i)
 		{
 			if (queue->path[j] == nb->node)
 				break ;
 			j++;
 		}
-		if (j == i && nb->node->type != 1 && nb->node->visited != MAX_VISITS) 
+		if (j == params.i && nb->node->type != 1 &&
+					nb->node->visited != MAX_VISITS) 
 		{
-			if (nb->node->level < lowest)
+			if (nb->node->level < params.lowest)
 			{
-				lowest = nb->node->level;
-				save = nb;
+				params.lowest = nb->node->level;
+				params.save = nb;
 			}
-			n++;
+			params.n++;
 		}
-		if (i == 0 && n >= 0)
-			extend_path(data, queue, nb, n);
+		if (params.i == 0 && params.n >= 0)
+			extend_path(data, queue, nb, params.n);
 		nb = nb->neighbours;
 	}
-	if (i > 0 && n >= 0)
-		take_lowest_levels(data, queue, save, n, i);
-	else if (n == -1)
+	if (params.i > 0 && params.n >= 0)
+		take_lowest_levels(data, queue, &params);
+	else if (params.n == -1)
 		delete_path(queue->path);
 }
 
@@ -236,10 +233,8 @@ void		find_paths(t_lem_in *data)
 {
 	t_neighbours	*nb;
 	t_path_queue	*queue;
-	int				n;
 
 	nb = NULL;
-	n = -1;
 	allocate_paths(data);
 	data->paths[0][0] = data->start;
 	queue = (t_path_queue*)malloc(sizeof(t_path_queue));
@@ -248,7 +243,7 @@ void		find_paths(t_lem_in *data)
 	data->end_of_queue = queue;
 	while (queue != NULL)
 	{
-		deal_step(data, queue, nb, n);
+		deal_step(data, queue, nb);
 		pop_queue_path(&queue);
 	}
 }
