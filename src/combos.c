@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/28 15:27:09 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 20:16:44 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 18:09:27 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void		find_combos_oncemore(t_lem_in *data)
 	while (data->complete[i] != NULL)
 	{
 		j = 0;
-		while(j < data->combo_max)
+		while (j < data->combo_max)
 		{
 			arr[j] = -1;
 			j++;

@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/16 20:27:31 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 18:12:13 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 
-# define PATH_NUMS 10000
+# define PATH_NUMS 5000
 # define PATH_LEN 100
 # define HTABLE_SIZE 64
-# define MAX_VISITS 30
+# define MAX_VISITS 24
 
 typedef struct		s_pathing_params
 {

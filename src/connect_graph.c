@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/19 15:13:07 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 19:56:37 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 16:33:05 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void			get_edge(char *line, t_lem_in *data)
 	connect_nodes(key1, key2, data);
 	free(key1);
 	free(key2);
+	free(line);
 }
 
 void			read_edge(char *line, t_lem_in *data)
@@ -79,9 +80,9 @@ void			read_edge(char *line, t_lem_in *data)
 	if (line && line[0] == '#')
 		check_comment(line, data);
 	else if (line && ft_validate_format("%s %d %d", line))
-		ft_error("Wrong order or rooms/links");
+		ft_error("No links found or wrong order of rooms and links");
 	else if (line && !ft_validate_format("%s-%s", line))
-		ft_error("That link format is not valid!");
+		ft_error("Wrong link format. Use room_name_1-room_name_2");
 	else
 		get_edge(line, data);
 }

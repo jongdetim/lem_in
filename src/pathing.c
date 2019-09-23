@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/26 15:03:24 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 21:14:12 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 17:04:04 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,11 @@ static void	delete_path(t_hash_graph **path)
 	}
 }
 
-void	take_next_lowest(t_path_queue *queue, int max, t_pathing_params *params)
+void		take_next_lowest(t_path_queue *queue,
+				int max, t_pathing_params *params)
 {
 	int	j;
-	
+
 	j = 0;
 	while (j < params->i)
 	{
@@ -159,12 +160,14 @@ void	take_next_lowest(t_path_queue *queue, int max, t_pathing_params *params)
 	}
 }
 
-void	take_lowest_levels(t_lem_in *data, t_path_queue *queue,
+void		take_lowest_levels(t_lem_in *data, t_path_queue *queue,
 										t_pathing_params *params)
 {
 	int				max;
 
 	extend_path(data, queue, params->save, 0);
+	if (params->save->node->type == 2)
+		return ;
 	max = 0;
 	while (max < 5 && params->n > 0)
 	{
@@ -177,17 +180,38 @@ void	take_lowest_levels(t_lem_in *data, t_path_queue *queue,
 			params->nb = params->nb->neighbours;
 		}
 		extend_path(data, queue, params->save, params->n);
-		if (params->save->node->type == 2)
-			return ;
 		max++;
 		params->n--;
+	}
+}
+
+static void	save_lowest_step(t_path_queue *queue,
+		t_neighbours *nb, t_pathing_params *params)
+{
+	int	j;
+
+	j = 0;
+	while (j < params->i)
+	{
+		if (queue->path[j] == nb->node)
+			break ;
+		j++;
+	}
+	if (j == params->i && nb->node->type != 1 &&
+				nb->node->visited != MAX_VISITS)
+	{
+		if (nb->node->level < params->lowest)
+		{
+			params->lowest = nb->node->level;
+			params->save = nb;
+		}
+		params->n++;
 	}
 }
 
 static void	deal_step(t_lem_in *data, t_path_queue *queue,
 											t_neighbours *nb)
 {
-	int					j;
 	t_pathing_params	params;
 
 	params.i = 0;
@@ -202,23 +226,7 @@ static void	deal_step(t_lem_in *data, t_path_queue *queue,
 	nb = queue->path[params.i]->neighbours;
 	while (nb != NULL)
 	{
-		j = 0;
-		while (j < params.i)
-		{
-			if (queue->path[j] == nb->node)
-				break ;
-			j++;
-		}
-		if (j == params.i && nb->node->type != 1 &&
-					nb->node->visited != MAX_VISITS) 
-		{
-			if (nb->node->level < params.lowest)
-			{
-				params.lowest = nb->node->level;
-				params.save = nb;
-			}
-			params.n++;
-		}
+		save_lowest_step(queue, nb, &params);
 		if (params.i == 0 && params.n >= 0)
 			extend_path(data, queue, nb, params.n);
 		nb = nb->neighbours;

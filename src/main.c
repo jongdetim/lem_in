@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 20:16:48 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 18:10:07 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,17 @@ static void	init_lem_in(t_lem_in *data)
 	data->path_num = 0;
 	data->solution = NULL;
 	data->input = NULL;
+	data->start = NULL;
+	data->end = NULL;
 	data->solution_steps = INT_MAX;
+}
+
+static void	check_start_end(t_lem_in *data)
+{
+	if (data->start == NULL)
+		ft_error("No starting room found");
+	if (data->end == NULL)
+		ft_error("No end room found");
 }
 
 int			main(void)
@@ -42,8 +52,9 @@ int			main(void)
 	char		*line;
 	t_lem_in	data;
 
-	close(0);
-	open("./outlier", O_RDONLY);
+	// close(0);
+	// open("bigsuper2", 0, O_RDONLY);
+
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -53,18 +64,18 @@ int			main(void)
 			break ;
 	}
 	build_graph(&data);
+	check_start_end(&data);
 	read_edge(line, &data);
 	while (get_next_line(0, &line) == 1)
-	{
 		read_edge(line, &data);
-		free(line);
-	}
 	bfs(&data);
 	find_paths(&data);
+	if (data.complete[0] == NULL)
+		ft_error("There is no path from start to end");
 	choose_combos(&data);
 	print_solution(&data);
 
-	ft_putnbr(data.solution_steps);
-
+	// ft_putnbr(data.solution_steps);
+	// while (1);
 	return (0);
 }

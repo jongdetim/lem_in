@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/16 19:55:33 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 15:20:32 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	validate_ants(t_lem_in *data)
 		free(str);
 	}
 	if (!ft_validate_format("%d", str) || str[0] == '-')
-		ft_error("Empty file or input of ants is invalid!");
+		ft_error("Empty file or input of ants is invalid");
 	data->amount = ft_atoi(str);
 	free(str);
 	if (data->amount == 0)
-		ft_error("Ants can't be zero!");
+		ft_error("Ants can't be zero");
 }
 
 void	check_comment(char *str, t_lem_in *data)
@@ -43,5 +43,5 @@ void	check_comment(char *str, t_lem_in *data)
 	add_list(str, data);
 	if ((data->set_end == 1 || data->set_start == 1) &&
 					ft_validate_format("%s %d %d", str))
-		ft_error("Start or End has no room assigned!");
+		ft_error("Start or End has no room assigned");
 }

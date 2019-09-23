@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/09/16 19:50:41 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/16 19:52:31 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/23 16:47:18 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void			print_solution(t_lem_in *data)
 		ant_list = move_ants(ant_list);
 	}
 	while (ant_list != NULL)
-	{
 		ant_list = move_ants(ant_list);
-	}
+	free(spread);
 }
