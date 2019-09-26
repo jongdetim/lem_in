@@ -15,9 +15,15 @@
 void	validate_ants(t_lem_in *data)
 {
 	char	*str;
+	int		ret;
 
-	while (get_next_line(0, &str))
+	while (1)
 	{
+		ret = get_next_line(0, &str);
+		if (ret == -1)
+			ft_error("Cannot read file");
+		if (ret == 0)
+			ft_error("File is literally just comments");
 		add_list(str, data);
 		if (str[0] != '#')
 			break ;

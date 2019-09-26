@@ -52,8 +52,8 @@ int			main(void)
 	char		*line;
 	t_lem_in	data;
 
-	// close(0);
-	// open("bigsuper2", 0, O_RDONLY);
+	close(0);
+	open("bigsuper2", 0, O_RDONLY);
 
 
 	init_lem_in(&data);
@@ -75,7 +75,7 @@ int			main(void)
 	choose_combos(&data);
 	print_solution(&data);
 
-	// ft_putnbr(data.solution_steps);
+	ft_putnbr(data.solution_steps);
 	// while (1);
 	return (0);
 }
