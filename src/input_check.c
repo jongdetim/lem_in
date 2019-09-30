@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:06:47 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/23 15:20:32 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/30 15:38:35 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ void	validate_ants(t_lem_in *data)
 	{
 		ret = get_next_line(0, &str);
 		if (ret == -1)
-			ft_error("Cannot read file");
+			ft_error("Error: cannot read file");
 		if (ret == 0)
-			ft_error("File is literally just comments");
+			ft_error("Error: file is literally just comments");
 		add_list(str, data);
 		if (str[0] != '#')
 			break ;
 		free(str);
 	}
 	if (!ft_validate_format("%d", str) || str[0] == '-')
-		ft_error("Empty file or input of ants is invalid");
+		ft_error("Error: empty file or input of ants is invalid");
 	data->amount = ft_atoi(str);
 	free(str);
 	if (data->amount == 0)
-		ft_error("Ants can't be zero");
+		ft_error("Error: zero ants");
 }
 
 void	check_comment(char *str, t_lem_in *data)
@@ -49,5 +49,5 @@ void	check_comment(char *str, t_lem_in *data)
 	add_list(str, data);
 	if ((data->set_end == 1 || data->set_start == 1) &&
 					ft_validate_format("%s %d %d", str))
-		ft_error("Start or End has no room assigned");
+		ft_error("Error: start or End has no room assigned");
 }

@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 13:28:53 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/23 18:12:13 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/30 15:43:56 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define PATH_NUMS 5000
 # define PATH_LEN 100
 # define HTABLE_SIZE 64
-# define MAX_VISITS 24
+# define MAX_VISITS 28
 
 typedef struct		s_pathing_params
 {
@@ -155,6 +155,20 @@ void				trim_graph(t_hash_graph *node);
 **	pathing.c
 */
 void				find_paths(t_lem_in *data);
+
+/*
+**	path_helper.c
+*/
+void				delete_path(t_hash_graph **path);
+void				extend_path(t_lem_in *data, t_path_queue *queue,
+								t_neighbours *nb, int n);
+void				allocate_paths(t_lem_in *data);
+
+/*
+**	path_queue.c
+*/
+void				pop_queue_path(t_path_queue **queue);
+void				enqueue_path(t_hash_graph **path, t_lem_in *data);
 
 /*
 **	combos.c

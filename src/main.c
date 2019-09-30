@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:04:17 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/23 18:10:07 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/09/30 15:55:10 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,15 @@ static void	init_lem_in(t_lem_in *data)
 static void	check_start_end(t_lem_in *data)
 {
 	if (data->start == NULL)
-		ft_error("No starting room found");
+		ft_error("Error: no starting room found");
 	if (data->end == NULL)
-		ft_error("No end room found");
+		ft_error("Error: no end room found");
 }
 
 int			main(void)
 {
 	char		*line;
 	t_lem_in	data;
-
-	close(0);
-	open("bigsuper2", 0, O_RDONLY);
-
 
 	init_lem_in(&data);
 	validate_ants(&data);
@@ -71,11 +67,8 @@ int			main(void)
 	bfs(&data);
 	find_paths(&data);
 	if (data.complete[0] == NULL)
-		ft_error("There is no path from start to end");
+		ft_error("Error: there is no path from start to end");
 	choose_combos(&data);
 	print_solution(&data);
-
-	ft_putnbr(data.solution_steps);
-	// while (1);
 	return (0);
 }
