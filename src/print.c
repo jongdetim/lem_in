@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/09/16 19:50:41 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/09/23 16:47:18 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/10/17 15:23:30 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void			print_solution(t_lem_in *data)
 	while (data->solution[i] != NULL)
 		i++;
 	spread = calc_ant_spread(data, i);
-	if (ant_list == NULL)
-	{
-		ant_list = (t_ant*)ft_memalloc(sizeof(t_ant));
-		ant_list->next = NULL;
-	}
 	while (data->amount != 0)
 	{
+		if (ant_list == NULL)
+		{
+			ant_list = (t_ant*)ft_memalloc(sizeof(t_ant));
+			ant_list->next = NULL;
+		}
 		spawn_ants(ant_list, spread, i, data);
 		ant_list = move_ants(ant_list);
 	}

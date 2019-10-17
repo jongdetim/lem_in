@@ -6,7 +6,7 @@
 /*   By: awehlbur <awehlbur@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/14 17:00:41 by awehlbur       #+#    #+#                */
-/*   Updated: 2019/09/04 16:04:04 by awehlbur      ########   odam.nl         */
+/*   Updated: 2019/10/17 15:53:11 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 static int	valid_number(char *str, char c, int *amt)
 {
 	char	*orig;
+	int		count;
 
 	orig = str;
+	count = 0;
 	if (!ft_isdigit(*str) && *str != '-')
 		return (0);
 	while (*str != c)
 	{
-		if (!*str || !ft_isdigit(*str))
+		if (!*str || (!ft_isdigit(*str) && !(count == 0 && *str == '-')))
 			return (0);
 		++str;
+		count++;
 	}
 	*amt = str - orig;
 	return (1);
